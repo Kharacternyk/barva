@@ -9,7 +9,7 @@ int main() {
 
     ss.format = PA_SAMPLE_S16NE;
     ss.channels = 1;
-    ss.rate = 44100;
+    ss.rate = 50;
 
     int error = 0;
 
