@@ -8,7 +8,7 @@ int main() {
     pa_sample_spec ss;
 
     ss.format = PA_SAMPLE_S16NE;
-    ss.channels = 2;
+    ss.channels = 1;
     ss.rate = 44100;
 
     int error = 0;
@@ -29,7 +29,7 @@ int main() {
     printf("%d: %s\n", error, pa_strerror(error));
 
     for (;;) {
-        char buffer[10];
+        int16_t buffer[8];
         pa_simple_read(
             s,
             buffer,
@@ -38,8 +38,8 @@ int main() {
         );
         printf("%d: %s\n", error, pa_strerror(error));
 
-        for (char *byte = buffer; byte < &buffer[sizeof(buffer)]; ++byte) {
-            printf("%X\n", *byte);
+        for (int16_t *byte = buffer; byte < &buffer[sizeof(buffer) / sizeof(int16_t)]; ++byte) {
+            printf("%d\n", *byte);
         }
     }
 }
