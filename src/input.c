@@ -41,7 +41,8 @@ void get_samples(pa_simple *s, float *out) {
     pa_simple_read(
         s,
         out,
-        OUTPUT_RATE * 4,
+        /* sizeof(float) = 4, we're in trouble otherwise. */
+        OUTPUT_RATE * sizeof(float),
         &error
     );
     check(error);

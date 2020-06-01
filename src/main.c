@@ -2,6 +2,7 @@
 #include <pulse/error.h>
 #include <pulse/pulseaudio.h>
 #include <stdio.h>
+#include <math.h>
 
 #include "input.h"
 
@@ -16,20 +17,19 @@ int main() {
         float square_sum = 0;
         for (
             float *sample = buffer;
-            sample < &buffer[sizeof(buffer) / sizeof(int16_t)];
+            sample < &buffer[sizeof(buffer) / sizeof(float)];
             ++sample
         ) {
             square_sum += (*sample) * (*sample);
         }
 
-        printf("value: %f\n", square_sum);
+        float value = sqrt(square_sum / OUTPUT_RATE);
+        printf("value: %f\n", value);
 
-        /*
-        int color = 255 - (square_sum >> 16);
+        int color = 255 * (1 - value);
         char color_str[8];
         sprintf(color_str,"#FF%02X%02X", color, color);
         printf("%s\n", color_str);
         printf("\033]11;%s\007", color_str);
-        */
     }
 }
