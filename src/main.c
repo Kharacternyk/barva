@@ -6,33 +6,12 @@
 #include "input.h"
 
 int main() {
-    pa_simple *s;
-    pa_sample_spec ss;
-
-    ss.format = PA_SAMPLE_S16NE;
-    ss.channels = 1;
-    ss.rate = 1000;
-
-    int error = 0;
-
-    char *sink_name = "alsa_output.pci-0000_01_02.0.analog-stereo.monitor";
-
-    s = pa_simple_new(
-        NULL,
-        "barva",
-        PA_STREAM_RECORD,
-        sink_name,
-        "barva",
-        &ss,
-        NULL,
-        NULL,
-        &error
-    );
-    printf("%d: %s\n", error, pa_strerror(error));
+    char *source_name = "alsa_output.pci-0000_01_02.0.analog-stereo.monitor";
+    pa_simple *s = get_pa_simple(source_name);
 
     for (;;) {
         int16_t buffer[50];
-        get_samples(s, sizeof(buffer), buffer);
+        get_samples(s, buffer);
 
         int min = buffer[0], max = buffer[0];
         for (
