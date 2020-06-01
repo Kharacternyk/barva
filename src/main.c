@@ -10,23 +10,26 @@ int main() {
     pa_simple *s = get_pa_simple(source_name);
 
     for (;;) {
-        int16_t buffer[OUTPUT_RATE];
+        float buffer[OUTPUT_RATE];
         get_samples(s, buffer);
 
-        int min = buffer[0], max = buffer[0];
+        float square_sum = 0;
         for (
-            int16_t *sample = buffer + 1;
+            float *sample = buffer;
             sample < &buffer[sizeof(buffer) / sizeof(int16_t)];
             ++sample
         ) {
-            if (*sample < min) {
-                min = *sample;
-            }
-            if (*sample > max) {
-                max = *sample;
-            }
+            square_sum += (*sample) * (*sample);
         }
 
-        printf("amplitude: %d\n", max - min);
+        printf("value: %f\n", square_sum);
+
+        /*
+        int color = 255 - (square_sum >> 16);
+        char color_str[8];
+        sprintf(color_str,"#FF%02X%02X", color, color);
+        printf("%s\n", color_str);
+        printf("\033]11;%s\007", color_str);
+        */
     }
 }

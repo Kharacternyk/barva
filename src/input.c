@@ -16,7 +16,7 @@ pa_simple *get_pa_simple(const char *source_name) {
     pa_simple *s;
     pa_sample_spec ss;
 
-    ss.format = PA_SAMPLE_S16NE;
+    ss.format = PA_SAMPLE_FLOAT32NE;
     ss.channels = 1;
     ss.rate = SAMPLE_RATE;
 
@@ -36,12 +36,12 @@ pa_simple *get_pa_simple(const char *source_name) {
     return s;
 }
 
-void get_samples(pa_simple *s, int16_t *out) {
+void get_samples(pa_simple *s, float *out) {
     int error = 0;
     pa_simple_read(
         s,
         out,
-        OUTPUT_RATE * 2,
+        OUTPUT_RATE * 4,
         &error
     );
     check(error);
