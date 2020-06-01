@@ -24,12 +24,11 @@ int main() {
         }
 
         float value = sqrt(square_sum / OUTPUT_RATE);
-        printf("value: %f\n", value);
 
         int color = 255 * (1 - value);
         char color_str[8];
         sprintf(color_str,"#FF%02X%02X", color, color);
-        printf("%s\n", color_str);
         printf("\033]11;%s\007", color_str);
+        fflush(stdout);
     }
 }
