@@ -10,7 +10,7 @@ int main() {
     pa_simple *s = get_pa_simple(source_name);
 
     for (;;) {
-        int16_t buffer[50];
+        int16_t buffer[OUTPUT_RATE];
         get_samples(s, buffer);
 
         int min = buffer[0], max = buffer[0];
@@ -27,6 +27,6 @@ int main() {
             }
         }
 
-        printf("min: %d; max: %d \n", min, max);
+        printf("amplitude: %d\n", max - min);
     }
 }
