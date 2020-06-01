@@ -10,5 +10,5 @@
  */
 #define OUTPUT_RATE 100
 
-void get_samples(pa_simple *, int16_t *);
+void get_samples(pa_simple *s, int16_t *out);
 pa_simple *get_pa_simple(const char *source_name);
