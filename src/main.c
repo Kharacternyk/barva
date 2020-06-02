@@ -6,7 +6,7 @@
 
 #include "input.h"
 
-#define QUEUE_DEPTH 10
+#define QUEUE_DEPTH 50
 
 int main() {
     char *source_name = "alsa_output.pci-0000_01_02.0.analog-stereo.monitor";
@@ -16,7 +16,7 @@ int main() {
     for (float *p = queue; p < &queue[QUEUE_DEPTH]; ++p) {
         *p = 0;
     }
-    float average_square_sum = 0;
+    float average_rms = 0;
     int color = 0;
     for (;;) {
         float buffer[OUTPUT_RATE];
@@ -30,28 +30,25 @@ int main() {
         ) {
             square_sum += (*sample) * (*sample);
         }
+        float root_mean_square = sqrt(square_sum / OUTPUT_RATE);
 
-        if (square_sum > average_square_sum && color < 255) {
-            ++color;
-        } else if (square_sum < average_square_sum && color > 0) {
-            --color;
-        }
+        color = average_rms * 255;
 
-        printf("%f:%f\n", square_sum, average_square_sum);
+        printf("%f:%f\n", root_mean_square, average_rms);
 
         char color_str[8];
         sprintf(color_str,"#FF%02X%02X", 255-color, 255-color);
         printf("\033]11;%s\007", color_str);
         fflush(stdout);
 
-        average_square_sum = 0;
+        average_rms = 0;
         for (float *p = queue; p < &queue[QUEUE_DEPTH]; ++p) {
-            average_square_sum += *p;
+            average_rms += *p;
         }
-        average_square_sum /= QUEUE_DEPTH;
+        average_rms /= QUEUE_DEPTH;
         for (float *p = queue; p < &queue[QUEUE_DEPTH-1]; ++p) {
             *p = *(p+1);
         }
-        queue[QUEUE_DEPTH-1] = square_sum;
+        queue[QUEUE_DEPTH-1] = root_mean_square;
     }
 }
