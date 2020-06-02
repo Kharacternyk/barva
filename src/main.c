@@ -6,12 +6,17 @@
 
 #include "input.h"
 
+#define QUEUE_DEPTH 10
+
 int main() {
     char *source_name = "alsa_output.pci-0000_01_02.0.analog-stereo.monitor";
     pa_simple *s = get_pa_simple(source_name);
 
+    float queue[QUEUE_DEPTH];
+    for (float *p = queue; p < &queue[QUEUE_DEPTH]; ++p) {
+        *p = 0;
+    }
     float average_square_sum = 0;
-    long int chunks_processed = 0;
     int color = 0;
     for (;;) {
         float buffer[OUTPUT_RATE];
@@ -40,7 +45,10 @@ int main() {
         fflush(stdout);
 
         average_square_sum =
-            (average_square_sum * chunks_processed + square_sum) / (chunks_processed + 1);
-        ++chunks_processed;
+            (average_square_sum * QUEUE_DEPTH + square_sum - queue[0]) / QUEUE_DEPTH;
+        for (float *p = queue; p < &queue[QUEUE_DEPTH-1]; ++p) {
+            *p = *(p+1);
+        }
+        queue[QUEUE_DEPTH-1] = square_sum;
     }
 }
