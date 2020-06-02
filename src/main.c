@@ -44,8 +44,11 @@ int main() {
         printf("\033]11;%s\007", color_str);
         fflush(stdout);
 
-        average_square_sum =
-            (average_square_sum * QUEUE_DEPTH + square_sum - queue[0]) / QUEUE_DEPTH;
+        average_square_sum = 0;
+        for (float *p = queue; p < &queue[QUEUE_DEPTH]; ++p) {
+            average_square_sum += *p;
+        }
+        average_square_sum /= QUEUE_DEPTH;
         for (float *p = queue; p < &queue[QUEUE_DEPTH-1]; ++p) {
             *p = *(p+1);
         }
