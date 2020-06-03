@@ -9,8 +9,6 @@
 #include "queue.h"
 #include "cli.h"
 
-#define QUEUE_DEPTH 20
-
 int main(int argc, char* argv[]) {
     struct cli_options opts = parse_cli_options(argc, argv);
 
