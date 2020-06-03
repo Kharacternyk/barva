@@ -7,15 +7,18 @@
 #include "input.h"
 #include "output.h"
 #include "queue.h"
+#include "cli.h"
 
 #define QUEUE_DEPTH 20
 
-int main() {
+int main(int argc, char* argv[]) {
+    struct cli_options opts = parse_cli_options(argc, argv);
+
     char *source_name = "alsa_output.pci-0000_01_02.0.analog-stereo.monitor";
     pa_simple *s = get_pa_simple(source_name);
 
-    float buffer[QUEUE_DEPTH];
-    struct queue queue = init_queue(buffer, QUEUE_DEPTH);
+    float buffer[opts.queue_depth];
+    struct queue queue = init_queue(buffer, opts.queue_depth);
 
     for (;;) {
         float buffer[SAMPLE_CHUNK];
