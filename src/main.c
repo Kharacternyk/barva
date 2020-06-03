@@ -5,6 +5,7 @@
 #include <math.h>
 
 #include "input.h"
+#include "output.h"
 
 #define QUEUE_DEPTH 50
 
@@ -32,14 +33,8 @@ int main() {
         }
         float root_mean_square = sqrt(square_sum / OUTPUT_RATE);
 
-        color = average_rms * 255;
-
         printf("%f:%f\n", root_mean_square, average_rms);
-
-        char color_str[8];
-        sprintf(color_str,"#FF%02X%02X", 255-color, 255-color);
-        printf("\033]11;%s\007", color_str);
-        fflush(stdout);
+        update_render(average_rms);
 
         average_rms = 0;
         for (float *p = queue; p < &queue[QUEUE_DEPTH]; ++p) {
