@@ -15,14 +15,9 @@ int main() {
     pa_simple *s = get_pa_simple(source_name);
 
     float buffer[QUEUE_DEPTH];
-    struct queue queue;
-    queue.first = buffer;
-    queue.last = &buffer[QUEUE_DEPTH-1];
-    for (float *p = queue.first; p <= queue.last; ++p) {
-        *p = 0;
-    }
-
+    struct queue queue = init_queue(buffer, QUEUE_DEPTH);
     float average_rms = 0;
+
     for (;;) {
         float buffer[SAMPLE_CHUNK];
         get_samples(s, buffer);
