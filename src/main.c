@@ -37,9 +37,7 @@ int main() {
         }
         float root_mean_square = sqrt(square_sum / SAMPLE_CHUNK);
 
-        printf("%f:%f\n", root_mean_square, average_rms);
         update_render(average_rms);
-
         average_rms = queue_average(&queue);
         queue_put(&queue, root_mean_square);
     }
