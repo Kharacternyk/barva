@@ -1,7 +1,14 @@
 #include <stdio.h>
 
-void update_render(float mean) {
-    int brightness = 255 * (1 - mean);
-    printf("\033]11;#FF%02X%02X\007", brightness, brightness);
+#include "output.h"
+
+void update_render(float mean, struct color bg_color) {
+    color_add(&bg_color, mean * 255);
+    printf(
+        "\033]11;#%02X%02X%02X\007",
+        bg_color.components[0],
+        bg_color.components[1],
+        bg_color.components[2]
+    );
     fflush(stdout);
 }
