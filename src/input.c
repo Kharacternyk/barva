@@ -42,7 +42,7 @@ void get_samples(pa_simple *s, float *out) {
         s,
         out,
         /* sizeof(float) = 4, we're in trouble otherwise. */
-        OUTPUT_RATE * sizeof(float),
+        SAMPLE_CHUNK * sizeof(float),
         &error
     );
     check(error);
