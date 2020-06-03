@@ -7,7 +7,7 @@
 #include "input.h"
 #include "output.h"
 
-#define QUEUE_DEPTH 50
+#define QUEUE_DEPTH 20
 
 int main() {
     char *source_name = "alsa_output.pci-0000_01_02.0.analog-stereo.monitor";
@@ -20,7 +20,7 @@ int main() {
     float average_rms = 0;
     int color = 0;
     for (;;) {
-        float buffer[OUTPUT_RATE];
+        float buffer[SAMPLE_CHUNK];
         get_samples(s, buffer);
 
         float square_sum = 0;
@@ -31,7 +31,7 @@ int main() {
         ) {
             square_sum += (*sample) * (*sample);
         }
-        float root_mean_square = sqrt(square_sum / OUTPUT_RATE);
+        float root_mean_square = sqrt(square_sum / SAMPLE_CHUNK);
 
         printf("%f:%f\n", root_mean_square, average_rms);
         update_render(average_rms);

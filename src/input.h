@@ -6,9 +6,9 @@
 #define SAMPLE_RATE 44100
 /*
  * Samples read per each get_samples() call.
- * SAMPLE_RATE / OUTPUT_RATE = update interval.
+ * SAMPLE_RATE / SAMPLE_CHUNK = update interval.
  */
-#define OUTPUT_RATE 441
+#define SAMPLE_CHUNK 441
 
 void get_samples(pa_simple *s, float *out);
 pa_simple *get_pa_simple(const char *source_name);
