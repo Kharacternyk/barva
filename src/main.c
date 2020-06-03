@@ -16,7 +16,6 @@ int main() {
 
     float buffer[QUEUE_DEPTH];
     struct queue queue = init_queue(buffer, QUEUE_DEPTH);
-    float average_rms = 0;
 
     for (;;) {
         float buffer[SAMPLE_CHUNK];
@@ -30,10 +29,7 @@ int main() {
         ) {
             square_sum += (*sample) * (*sample);
         }
-        float root_mean_square = sqrt(square_sum / SAMPLE_CHUNK);
-
-        update_render(average_rms);
-        average_rms = queue_average(&queue);
-        queue_put(&queue, root_mean_square);
+        queue_put(&queue, sqrt(square_sum / SAMPLE_CHUNK));
+        update_render(queue_average(&queue));
     }
 }
