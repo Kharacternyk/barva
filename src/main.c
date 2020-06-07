@@ -10,13 +10,13 @@
 #include "cli.h"
 
 int main(int argc, char* argv[]) {
-    struct cli_options opts = parse_cli_options(argc, argv);
+    struct opts opts = parse_opts(argc, argv);
 
     char *source_name = "alsa_output.pci-0000_01_02.0.analog-stereo.monitor";
     pa_simple *s = get_pa_simple(source_name);
 
-    float buffer[opts.queue_depth];
-    struct queue queue = init_queue(buffer, opts.queue_depth);
+    float buffer[opts.inertia];
+    struct queue queue = init_queue(buffer, opts.inertia);
 
     for (;;) {
         float buffer[SAMPLE_CHUNK];
@@ -31,6 +31,6 @@ int main(int argc, char* argv[]) {
             square_sum += (*sample) * (*sample);
         }
         queue_put(&queue, sqrt(square_sum / SAMPLE_CHUNK));
-        update_render(queue_average(&queue), opts.bg_color);
+        update_render(queue_average(&queue), opts.bg);
     }
 }

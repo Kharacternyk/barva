@@ -5,7 +5,7 @@
 #include "cli.h"
 #include "errorcodes.h"
 
-static struct color parse_hex_color(const char *str) {
+static int parse_color(const char *str, void *out) {
     if (str == NULL) {
         goto failure;
     }
@@ -30,39 +30,43 @@ static struct color parse_hex_color(const char *str) {
         }
     }
 
-    return c;
-
+    *(struct color *)out = c;
+    return 0;
 failure:
-    fprintf(stderr, "expected valid hex color\n");
-    exit(BAD_ARG_CODE);
+    return -1;
 }
 
-static int parse_int(const char *str) {
+static int parse_int(const char *str, void *out) {
     int result;
     char *bad_char;
     result = strtol(str, &bad_char, 10);
     if (str[0] == '\0' || *bad_char != '\0') {
-        fprintf(stderr, "expected valid integer\n");
-        exit(BAD_ARG_CODE);
+        return -1;
     }
-    return result;
+    *(int *)out = result;
+    return 0;
 }
 
-struct cli_options parse_cli_options(int argc, char *argv[]) {
-    struct cli_options opts = {
+static void parse_opt(const char *optname, void *optfield,
+                      int (*parser)(const char *str, void *out)) {
+    char *optval = getenv(optname);
+    if (optval == NULL) {
+        return;
+    }
+    if (parser(optval, optfield)) {
+        fprintf(stderr, "Invalid value: %s=%s\n", optname, optval);
+        exit(BAD_ARG_CODE);
+    }
+}
+
+struct opts parse_opts(int argc, char *argv[]) {
+    struct opts opts = {
         20,
         {0, 0, 0}
     };
 
-    switch (argc) {
-    default:
-    case 3:
-        opts.bg_color = parse_hex_color(argv[2]);
-    case 2:
-        opts.queue_depth = parse_int(argv[1]);
-    case 1:
-        break;
-    }
+    parse_opt("BARVA_BG", &opts.bg, parse_color);
+    parse_opt("BARVA_INERTIA", &opts.inertia, parse_int);
 
     return opts;
 }
