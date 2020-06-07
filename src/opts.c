@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "cli.h"
+#include "opts.h"
 #include "errorcodes.h"
 
 static int parse_color(const char *str, void *out) {

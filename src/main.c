@@ -7,7 +7,7 @@
 #include "input.h"
 #include "output.h"
 #include "queue.h"
-#include "cli.h"
+#include "opts.h"
 
 int main(int argc, char* argv[]) {
     struct opts opts = parse_opts(argc, argv);
