@@ -31,6 +31,6 @@ int main(int argc, char* argv[]) {
             square_sum += (*sample) * (*sample);
         }
         queue_put(&queue, sqrt(square_sum / SAMPLE_CHUNK));
-        update_render(queue_average(&queue), opts.bg);
+        update_render(queue_average(&queue), opts.bg, opts.target);
     }
 }

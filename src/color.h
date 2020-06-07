@@ -5,6 +5,5 @@ struct color {
     int components[3];
 };
 
-void color_multiply(struct color *cp, float value);
-void color_add(struct color *cp, int value);
+struct color color_in_between(struct color c1, struct color c2, float value);
 #endif

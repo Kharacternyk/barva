@@ -62,11 +62,13 @@ static void parse_opt(const char *optname, void *optfield,
 struct opts parse_opts(int argc, char *argv[]) {
     struct opts opts = {
         .inertia = 20,
-        .bg = {{0, 0, 0}}
+        .bg = {{0, 0, 0}},
+        .target = {{255, 255, 255}}
     };
 
     parse_opt("BARVA_BG", &opts.bg, parse_color);
     parse_opt("BARVA_INERTIA", &opts.inertia, parse_int);
+    parse_opt("BARVA_TARGET", &opts.target, parse_color);
 
     return opts;
 }

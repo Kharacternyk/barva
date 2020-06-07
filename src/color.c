@@ -11,16 +11,10 @@ static void overflow(struct color *cp) {
     }
 }
 
-void color_multiply(struct color *cp, float value) {
+struct color color_in_between(struct color c1, struct color c2, float value) {
     for (int i = 0; i < 3; ++i) {
-        cp->components[i] *= value;
+        c1.components[i] += (c2.components[i] - c1.components[i]) * value;
     }
-    overflow(cp);
-}
-
-void color_add(struct color *cp, int value) {
-    for (int i = 0; i < 3; ++i) {
-        cp->components[i] += value;
-    }
-    overflow(cp);
+    overflow(&c1);
+    return c1;
 }
