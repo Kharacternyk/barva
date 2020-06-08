@@ -47,6 +47,11 @@ static int parse_int(const char *str, void *out) {
     return 0;
 }
 
+static int parse_str(const char *str, void *out) {
+    *(const char **)out = str;
+    return 0;
+}
+
 static void parse_opt(const char *optname, void *optfield,
                       int (*parser)(const char *str, void *out)) {
     char *optval = getenv(optname);
@@ -61,11 +66,13 @@ static void parse_opt(const char *optname, void *optfield,
 
 struct opts parse_opts(int argc, char *argv[]) {
     struct opts opts = {
+        .source = NULL,
         .inertia = 20,
         .bg = {{0, 0, 0}},
         .target = {{255, 255, 255}}
     };
 
+    parse_opt("BARVA_SOURCE", &opts.source, parse_str);
     parse_opt("BARVA_BG", &opts.bg, parse_color);
     parse_opt("BARVA_INERTIA", &opts.inertia, parse_int);
     parse_opt("BARVA_TARGET", &opts.target, parse_color);

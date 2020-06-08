@@ -12,8 +12,7 @@
 int main(int argc, char* argv[]) {
     struct opts opts = parse_opts(argc, argv);
 
-    char *source_name = "alsa_output.pci-0000_01_02.0.analog-stereo.monitor";
-    pa_simple *s = get_pa_simple(source_name);
+    pa_simple *s = get_pa_simple(opts.source);
 
     float buffer[opts.inertia];
     struct queue queue = init_queue(buffer, opts.inertia);

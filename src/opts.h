@@ -1,6 +1,7 @@
 #include "color.h"
 
 struct opts {
+    const char *source;
     int inertia;
     struct color bg;
     struct color target;
