@@ -11,8 +11,3 @@ void set_bg(struct color bg) {
     );
     fflush(stdout);
 }
-
-void update_render(float mean, struct color bg, struct color target) {
-    bg = color_in_between(bg, target, mean);
-    set_bg(bg);
-}
