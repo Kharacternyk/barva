@@ -2,8 +2,7 @@
 
 #include "output.h"
 
-void update_render(float mean, struct color bg, struct color target) {
-    bg = color_in_between(bg, target, mean);
+void set_bg(struct color bg) {
     printf(
         "\033]11;#%02X%02X%02X\007",
         bg.components[0],
@@ -11,4 +10,9 @@ void update_render(float mean, struct color bg, struct color target) {
         bg.components[2]
     );
     fflush(stdout);
+}
+
+void update_render(float mean, struct color bg, struct color target) {
+    bg = color_in_between(bg, target, mean);
+    set_bg(bg);
 }
