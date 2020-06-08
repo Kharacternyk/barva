@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "queue.h"
 
 struct queue init_queue(float array[], int length) {
@@ -10,18 +12,19 @@ struct queue init_queue(float array[], int length) {
     return q;
 }
 
-void queue_put(struct queue *q, float value) {
-    for (float *p = q->first; p < q->last; ++p) {
-        *p = *(p+1);
+void queue_put(struct queue *q, float values[], int values_length) {
+    for (float *p = q->first; p <= q->last - values_length; ++p) {
+        *p = *(p + values_length);
     }
-    *(q->last) = value;
+    for (float *p = q->last - values_length + 1; p <= q->last; ++p) {
+        *p = values[q->last - p];
+    }
 }
 
-float queue_average(const struct queue *q) {
-    float average = 0;
+float queue_root_mean_square(const struct queue *q) {
+    float square_sum = 0;
     for (float *p = q->first; p <= q->last; ++p) {
-        average += *p;
+        square_sum += (*p) * (*p);
     }
-    average /= (1 + q->last - q->first);
-    return average;
+    return sqrt(square_sum / (q->last - q->first + 1));
 }

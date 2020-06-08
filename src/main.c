@@ -1,8 +1,6 @@
 #include <pulse/simple.h>
 #include <pulse/error.h>
 #include <pulse/pulseaudio.h>
-#include <stdio.h>
-#include <math.h>
 #include <signal.h>
 
 #include "input.h"
@@ -22,23 +20,14 @@ int main(int argc, char* argv[]) {
 
     pa_simple *s = get_pa_simple(opts.source);
 
-    float buffer[opts.inertia];
-    struct queue queue = init_queue(buffer, opts.inertia);
+    float *queue_raw = malloc(opts.inertia * SAMPLE_CHUNK * sizeof(float));
+    struct queue queue = init_queue(queue_raw, opts.inertia * SAMPLE_CHUNK);
 
     for (;;) {
         float buffer[SAMPLE_CHUNK];
         get_samples(s, buffer);
-
-        float square_sum = 0;
-        for (
-            float *sample = buffer;
-            sample < &buffer[sizeof(buffer) / sizeof(float)];
-            ++sample
-        ) {
-            square_sum += (*sample) * (*sample);
-        }
-        queue_put(&queue, sqrt(square_sum / SAMPLE_CHUNK));
-        set_bg(color_in_between(opts.bg, opts.target, queue_average(&queue)));
+        queue_put(&queue, buffer, SAMPLE_CHUNK);
+        set_bg(color_in_between(opts.bg, opts.target, queue_root_mean_square(&queue)));
     }
 }
 
