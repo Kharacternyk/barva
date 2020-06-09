@@ -2,6 +2,10 @@
 
 #include "queue.h"
 
+static int length(const struct queue *q) {
+    return q->last - q->first + 1;
+}
+
 struct queue init_queue(float array[], int length) {
     struct queue q;
     q.first = array;
@@ -30,5 +34,5 @@ float queue_mean(const struct queue *q) {
         c = (t - sum) - y;
         sum = t;
     }
-    return sqrt(sum / (q->last - q->first + 1));
+    return sqrt(sum / length(q));
 }
