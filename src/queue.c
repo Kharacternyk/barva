@@ -22,7 +22,7 @@ void queue_put(struct queue *q, float values[], int values_length) {
 }
 
 float queue_mean(const struct queue *q) {
-    float square_sum = 0;
+    double square_sum = 0;
     for (float *p = q->first; p <= q->last; ++p) {
         square_sum += (*p) * (*p);
     }
