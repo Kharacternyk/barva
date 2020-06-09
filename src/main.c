@@ -20,8 +20,7 @@ int main(int argc, char* argv[]) {
 
     pa_simple *s = get_pa_simple(opts.source);
 
-    float *queue_raw = malloc(opts.inertia * SAMPLE_CHUNK * sizeof(float));
-    struct queue queue = init_queue(queue_raw, opts.inertia * SAMPLE_CHUNK);
+    struct queue queue = init_queue(0.9999);
 
     for (;;) {
         float buffer[SAMPLE_CHUNK];
