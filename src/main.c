@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
         float buffer[SAMPLE_CHUNK];
         get_samples(s, buffer);
         queue_put(&queue, buffer, SAMPLE_CHUNK);
-        set_bg(color_in_between(opts.bg, opts.target, queue_mean(&queue)));
+        set_bg(color_mean(opts.bg, opts.target, queue_mean(&queue)));
     }
 }
 

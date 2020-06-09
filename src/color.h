@@ -5,5 +5,5 @@ struct color {
     int components[3];
 };
 
-struct color color_in_between(struct color c1, struct color c2, float value);
+struct color color_mean(struct color c1, struct color c2, float value);
 #endif
