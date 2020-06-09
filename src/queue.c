@@ -26,13 +26,16 @@ void queue_put(struct queue *q, float values[], int values_length) {
 }
 
 float queue_mean(const struct queue *q) {
-    /* Root mean square with Kahan summation */
+    /* Weighted root mean square (RMS) with Kahan summation */
+    double step = 0.99999;
+    double weight = (1.0 - step) / (1.0 - pow(step, length(q)));
     double sum = 0, c = 0, t, y;
-    for (float *p = q->first; p <= q->last; ++p) {
-        y = (*p) * (*p) - c;
+    for (float *p = q->last; p >= q->first; --p) {
+        y = (*p) * (*p) * weight - c;
         t = sum + y;
         c = (t - sum) - y;
         sum = t;
+        weight *= step;
     }
-    return sqrt(sum / length(q));
+    return sqrt(sum);
 }
