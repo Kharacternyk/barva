@@ -32,5 +32,5 @@ int main(int argc, char* argv[]) {
 
 void restore_bg(int sig) {
     set_bg(initial_bg);
-    exit(sig);
+    exit(0);
 }
