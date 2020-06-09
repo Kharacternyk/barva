@@ -22,9 +22,13 @@ void queue_put(struct queue *q, float values[], int values_length) {
 }
 
 float queue_mean(const struct queue *q) {
-    double square_sum = 0;
+    /* Root mean square with Kahan summation */
+    double sum = 0, c = 0, t, y;
     for (float *p = q->first; p <= q->last; ++p) {
-        square_sum += (*p) * (*p);
+        y = (*p) * (*p) - c;
+        t = sum + y;
+        c = (t - sum) - y;
+        sum = t;
     }
-    return sqrt(square_sum / (q->last - q->first + 1));
+    return sqrt(sum / (q->last - q->first + 1));
 }
