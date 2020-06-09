@@ -2,7 +2,7 @@
 
 struct opts {
     const char *source;
-    int inertia;
+    double inertia;
     struct color bg;
     struct color target;
 };
