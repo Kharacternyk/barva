@@ -8,4 +8,5 @@ format:
 	@astyle --formatted --project *.c *.h
 
 check:
-	@cppcheck --template=gcc --quiet --platform=unix64 --enable=all *.c
+	@cppcheck --suppress=missingIncludeSystem --template=gcc \
+	          --quiet --platform=unix64 --enable=all *.c

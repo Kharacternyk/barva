@@ -14,12 +14,12 @@ static int length(const struct queue *q) {
 }
 
 struct queue init_queue(double inertia) {
-    size_t length = log(EPSILON) / log(inertia);
-    float *array = calloc(sizeof(float), length);
+    size_t size = log(EPSILON) / log(inertia);
+    float *array = calloc(sizeof(float), size);
 
     struct queue q = {
         .first = array,
-        .last = &array[length - 1],
+        .last = &array[size - 1],
         .inertia = inertia
     };
     return q;
@@ -37,10 +37,10 @@ void queue_put(struct queue *q, float values[], int values_length) {
 float queue_mean(const struct queue *q) {
     /* Weighted root mean square (RMS) with Kahan summation */
     double weight = (1.0 - q->inertia) / (1.0 - pow(q->inertia, length(q)));
-    double sum = 0, c = 0, t, y;
+    double sum = 0, c = 0;
     for (float *p = q->last; p >= q->first; --p) {
-        y = (*p) * (*p) * weight - c;
-        t = sum + y;
+        double y = (*p) * (*p) * weight - c;
+        double t = sum + y;
         c = (t - sum) - y;
         sum = t;
         weight *= q->inertia;
