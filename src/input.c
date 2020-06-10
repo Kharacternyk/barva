@@ -21,17 +21,8 @@ pa_simple *get_pa_simple(const char *source_name) {
     ss.rate = SAMPLE_RATE;
 
     int error = 0;
-    s = pa_simple_new(
-        NULL,
-        "barva",
-        PA_STREAM_RECORD,
-        source_name,
-        "barva",
-        &ss,
-        NULL,
-        NULL,
-        &error
-    );
+    s = pa_simple_new(NULL, "barva", PA_STREAM_RECORD, source_name, "barva",
+                      &ss, NULL, NULL, &error);
     check(error);
     return s;
 }

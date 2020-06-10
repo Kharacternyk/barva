@@ -14,12 +14,12 @@ static int length(const struct queue *q) {
 }
 
 struct queue init_queue(double inertia) {
-    size_t length = log(EPSILON)/log(inertia);
+    size_t length = log(EPSILON) / log(inertia);
     float *array = calloc(sizeof(float), length);
 
     struct queue q = {
         .first = array,
-        .last = &array[length-1],
+        .last = &array[length - 1],
         .inertia = inertia
     };
     return q;

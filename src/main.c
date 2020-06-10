@@ -11,7 +11,7 @@
 struct color initial_bg;
 void restore_bg(int sig);
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
     struct opts opts = parse_opts(argc, argv);
 
     initial_bg = opts.bg;
