@@ -1,3 +1,4 @@
+# Formating opts.
 style=attach
 indent=spaces=4
 pad-oper
@@ -10,5 +11,5 @@ attach-return-type
 attach-return-type-decl
 max-code-length=88
 
-# Only worth it if a VCS is used!
---suffix=none
+# Command invocation opts.
+suffix=none
