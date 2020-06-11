@@ -1,10 +1,6 @@
 debug: format check
 	@gcc -o barva -Wall *.c -lpulse -lpulse-simple -lm
 
-release:
-	@gcc -o barva -O3 -ffinite-math-only -fno-math-errno \
-	*.c -lpulse -lpulse-simple -lm
-
 format:
 	@astyle --formatted --project *.c *.h
 

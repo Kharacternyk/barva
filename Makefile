@@ -1,2 +1,3 @@
 release:
-	$(MAKE) -C src release && cp src/barva ./
+	@gcc -o barva -O3 src/*.c -lpulse -lpulse-simple -lm
+
