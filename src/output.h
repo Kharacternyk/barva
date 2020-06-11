@@ -1,3 +1,6 @@
+#ifndef __output__
+#define __output__
+
 #include "color.h"
 
 enum output_format {
@@ -5,3 +8,5 @@ enum output_format {
 };
 
 void set_bg(struct color bg, enum output_format fmt);
+
+#endif
