@@ -7,12 +7,12 @@
 
 static int parse_color(const char *str, void *out) {
     if (str == NULL) {
-        goto failure;
+        return -1;
     }
 
     str = strstr(str, "#");
     if (str == NULL || strlen(str) < 7) {
-        goto failure;
+        return -1;
     }
     ++str;
 
@@ -26,14 +26,12 @@ static int parse_color(const char *str, void *out) {
         char *bad_char;
         c.components[i] = strtol(components_str[i], &bad_char, 16);
         if (*bad_char != '\0') {
-            goto failure;
+            return -1;
         }
     }
 
     *(struct color *)out = c;
     return 0;
-failure:
-    return -1;
 }
 
 static int parse_double(const char *str, void *out) {
