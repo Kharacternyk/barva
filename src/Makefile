@@ -1,5 +1,5 @@
-debug: format check
-	@gcc -o barva -Wall *.c -lpulse -lpulse-simple -lm
+debug: format check build
+	@./barva
 
 format:
 	@astyle --formatted --project *.c *.h
@@ -7,3 +7,6 @@ format:
 check:
 	@cppcheck --suppress=missingIncludeSystem --template=gcc \
 	          --quiet --platform=unix64 --enable=all *.c
+build:
+	@gcc -o barva -Wall *.c -lpulse -lpulse-simple -lm
+
