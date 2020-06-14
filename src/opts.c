@@ -58,6 +58,17 @@ static int parse_output_format(const char *str, void *out) {
     return -1;
 }
 
+static int parse_size_t(const char *str, void *out) {
+    size_t result;
+    char *bad_char;
+    result = (size_t)strtol(str, &bad_char, 0);
+    if (str[0] == '\0' || *bad_char != '\0') {
+        return -1;
+    }
+    *(size_t *)out = result;
+    return 0;
+}
+
 static void parse_opt(const char *optname, void *optfield,
                       int (*parser)(const char *str, void *out)) {
     char *optval = getenv(optname);
@@ -74,6 +85,8 @@ struct opts parse_opts(int argc, char *argv[]) {
     int is_tty = isatty(fileno(stdout));
     struct opts opts = {
         .source = NULL,
+        .sample_rate = 44100,
+        .sample_chunk = 441,
         .inertia = 0.9999,
         .bg = {{0, 0, 0}},
         .target = {{255, 255, 255}},
@@ -81,6 +94,8 @@ struct opts parse_opts(int argc, char *argv[]) {
     };
 
     parse_opt("BARVA_SOURCE", &opts.source, parse_str);
+    parse_opt("BARVA_SAMPLE_RATE", &opts.sample_rate, parse_size_t);
+    parse_opt("BARVA_SAMPLE_CHUNK", &opts.sample_chunk, parse_size_t);
     parse_opt("BARVA_INERTIA", &opts.inertia, parse_double);
     parse_opt("BARVA_BG", &opts.bg, parse_color);
     parse_opt("BARVA_TARGET", &opts.target, parse_color);

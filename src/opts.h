@@ -1,8 +1,12 @@
+#include <stdint.h>
+
 #include "color.h"
 #include "output.h"
 
 struct opts {
     const char *source;
+    uint32_t sample_rate;
+    size_t sample_chunk;
     double inertia;
     struct color bg;
     struct color target;

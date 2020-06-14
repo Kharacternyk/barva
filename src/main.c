@@ -17,14 +17,14 @@ int main(int argc, char *argv[]) {
     signal(SIGINT, restore_bg);
     signal(SIGTERM, restore_bg);
 
-    pa_simple *s = get_pa_simple(opts.source);
+    pa_simple *s = get_pa_simple(opts.source, opts.sample_rate);
 
     struct queue queue = init_queue(opts.inertia);
 
     for (;;) {
-        float buffer[SAMPLE_CHUNK];
-        get_samples(s, buffer);
-        queue_put(&queue, buffer, SAMPLE_CHUNK);
+        float buffer[opts.sample_chunk];
+        get_samples(s, opts.sample_chunk, buffer);
+        queue_put(&queue, buffer, opts.sample_chunk);
         set_bg(color_mean(opts.bg, opts.target, queue_mean(&queue)), opts.output_format);
     }
 }
