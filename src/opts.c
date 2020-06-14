@@ -7,12 +7,7 @@
 #include "errorcodes.h"
 
 static int parse_color(const char *str, void *out) {
-    if (str == NULL) {
-        return -1;
-    }
-
-    str = strstr(str, "#");
-    if (str == NULL || strlen(str) < 7) {
+    if (str == NULL || strlen(str) != 7 || str[0] != '#') {
         return -1;
     }
     ++str;
