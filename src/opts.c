@@ -18,14 +18,14 @@ static int parse_color(const char *str, void *out) {
     ++str;
 
     struct color c;
-    char components_str [3][3];
+    char rgb_str [3][3];
     for (int i = 0; i < 3; ++i) {
-        components_str[i][0] = *str++;
-        components_str[i][1] = *str++;
-        components_str[i][2] = '\0';
+        rgb_str[i][0] = *str++;
+        rgb_str[i][1] = *str++;
+        rgb_str[i][2] = '\0';
 
         char *bad_char;
-        c.components[i] = strtol(components_str[i], &bad_char, 16);
+        c.rgb[i] = strtol(rgb_str[i], &bad_char, 16);
         if (*bad_char != '\0') {
             return -1;
         }
