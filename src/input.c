@@ -29,7 +29,6 @@ pa_simple *get_pa_simple(const char *source_name, size_t sample_rate) {
 
 void get_samples(pa_simple *s, size_t sample_chunk, float *out) {
     int error = 0;
-    /* sizeof(float) = 4, we're in trouble otherwise. */
     pa_simple_read(s, out, sample_chunk * sizeof(float), &error);
     check(error);
 }
