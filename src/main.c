@@ -13,6 +13,7 @@ void restore_bg(int sig);
 
 int main(int argc, char *argv[]) {
     opts = parse_opts(argc, argv);
+    const size_t sample_chunk = opts.sample_rate / opts.fps;
 
     signal(SIGINT, restore_bg);
     signal(SIGTERM, restore_bg);
@@ -22,9 +23,9 @@ int main(int argc, char *argv[]) {
     struct queue queue = init_queue(opts.inertia);
 
     for (;;) {
-        float buffer[opts.sample_chunk];
-        get_samples(s, opts.sample_chunk, buffer);
-        queue_put(&queue, buffer, opts.sample_chunk);
+        float buffer[sample_chunk];
+        get_samples(s, sample_chunk, buffer);
+        queue_put(&queue, buffer, sample_chunk);
         set_bg(color_mean(opts.bg, opts.target, queue_mean(&queue)), opts.output_format);
     }
 }
