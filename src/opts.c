@@ -86,7 +86,7 @@ struct opts parse_opts(int argc, char *argv[]) {
     struct opts opts = {
         .source = NULL,
         .sample_rate = 44100,
-        .fps = 100,
+        .fps = 60,
         .inertia = 0.9999,
         .bg = {{0, 0, 0}},
         .target = {{255, 255, 255}},
