@@ -20,17 +20,18 @@ struct queue init_queue(double inertia) {
     struct queue q = {
         .first = array,
         .last = &array[size - 1],
+        .entry = array,
         .inertia = inertia
     };
     return q;
 }
 
 void queue_put(struct queue *q, float values[], int values_length) {
-    for (float *p = q->first; p <= q->last - values_length; ++p) {
-        *p = *(p + values_length);
-    }
-    for (float *p = q->last - values_length + 1; p <= q->last; ++p) {
-        *p = values[q->last - p];
+    for (int i = 0; i < values_length; ++i) {
+        *(q->entry++) = values[i];
+        if (q->entry > q->last) {
+            q->entry = q->first;
+        }
     }
 }
 
@@ -38,7 +39,14 @@ float queue_mean(const struct queue *q) {
     /* Weighted root mean square (RMS) with Kahan summation */
     double weight = (1.0 - q->inertia) / (1.0 - pow(q->inertia, length(q)));
     double sum = 0, c = 0;
-    for (float *p = q->last; p >= q->first; --p) {
+    for (float *p = q->entry - 1; p >= q->first; --p) {
+        double y = (*p) * (*p) * weight - c;
+        double t = sum + y;
+        c = (t - sum) - y;
+        sum = t;
+        weight *= q->inertia;
+    }
+    for (float *p = q->last; p >= q->entry; --p) {
         double y = (*p) * (*p) * weight - c;
         double t = sum + y;
         c = (t - sum) - y;

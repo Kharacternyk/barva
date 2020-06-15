@@ -1,6 +1,18 @@
+/*
+ * Structure:
+ * [**************************]
+ *  ^first     ^entry        ^last
+ *
+ * Entry points to the element that will be removed on the next push.
+ * For example, after `queue_put(&q, [1, 2, 3], 3);` the same queue will
+ * look like this:
+ * [***********123************]
+ *  ^first        ^entry     ^last
+ */
 struct queue {
     float *last;
     float *first;
+    float *entry;
     double inertia;
 };
 
