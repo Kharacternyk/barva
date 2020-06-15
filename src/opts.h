@@ -6,7 +6,7 @@
 struct opts {
     const char *source;
     uint32_t sample_rate;
-    size_t fps;
+    double fps;
     double inertia;
     struct color bg;
     struct color target;
