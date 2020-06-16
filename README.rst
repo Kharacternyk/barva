@@ -66,7 +66,8 @@ Customization is done via environmental variables (no CLI yet):
 |                         |                         | background is updated per sec.|
 +-------------------------+-------------------------+-------------------------------+
 | ``BARVA_OUTPUT_FORMAT`` | ``TTY`` if ``stdout`` is| The format of output.         |
-|                         | a tty, ``HEX`` otherwise| * ``TTY``: change the         |
+|                         | a tty, ``HEX`` otherwise|                               |
+|                         |                         | * ``TTY``: change the         |
 |                         |                         |   background of the terminal. |
 |                         |                         | * ``HEX``: output the color in|
 |                         |                         |   hex, one per line.          |
