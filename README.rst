@@ -79,6 +79,13 @@ Customization is done via environmental variables (no CLI yet):
 Tips and tricks
 ===============
 
+----------
+Compositor
+----------
+
+If you use "raw" Xorg without a DE, consider running a compositor like ``picom`` or
+``compton``. It eliminates tearing, thus making ``barva`` smoother.
+
 ---
 FPS
 ---
