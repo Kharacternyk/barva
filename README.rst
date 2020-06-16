@@ -61,7 +61,7 @@ Customization is done via environmental variables (no CLI yet):
 | ``BARVA_BG``            | ``#000000``             | The background color of the   |
 |                         |                         | terminal                      |
 +-------------------------+-------------------------+-------------------------------+
-| ``BARVA_TARGET``        | ``#FFFFFF``             | The color "toward which" the  |
+| ``BARVA_TARGET``        | ``#FFFFFF``             | The color "towards which" the |
 |                         |                         | background pulses.            |
 +-------------------------+-------------------------+-------------------------------+
 | ``BARVA_FPS``           | ``60``                  | The number of times the       |
