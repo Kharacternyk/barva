@@ -94,7 +94,7 @@ The CPU usage of ``barva`` is roughly proportional to the value of ``BARVA_FPS``
 Therefore, lowering the value is the first thing to try to improve performance
 (please report such cases, ``barva`` is supposed to be reasonably fast *everywhere*).
 
-If you have a high refresh-rate monitor, you may try to make ``BARVA_FPS`` bigger:
+If you have a high refresh-rate monitor, you may try making ``BARVA_FPS`` bigger:
 the appearance may improve (at the cost of CPU cycles, though).
 
 -----
