@@ -58,17 +58,6 @@ static int parse_output_format(const char *str, void *out) {
     return -1;
 }
 
-/*
- * INERTIA and SAMPLE_RATE options are not changeable by default.
- * The reason is that misuse of these options may cause barva to
- * not enough smooth the transitions i.e. flicker. This can be
- * dangerous to flicker-sensitive people. The options are left
- * accessible to the developers so that they can try to improve
- * the default appearance of barva.
- *
- * DO NOT DEFINE UNSAFE_OPTS UNLESS YOU ARE SURE
- * THAT FLICKER CAN NOT CAUSE HARM TO YOUR HEALTH!
- */
 #ifdef UNSAFE_OPTS
 static int parse_size_t(const char *str, void *out) {
     size_t result;
@@ -112,6 +101,17 @@ struct opts parse_opts(int argc, char *argv[]) {
     parse_opt("BARVA_TARGET", &opts.target, parse_color);
     parse_opt("BARVA_OUTPUT_FORMAT", &opts.output_format, parse_output_format);
 
+    /*
+     * INERTIA and SAMPLE_RATE options are not changeable by default.
+     * The reason is that misuse of these options may cause barva to
+     * not enough smooth the transitions i.e. flicker. This can be
+     * dangerous to flicker-sensitive people. The options are left
+     * accessible to the developers so that they can try to improve
+     * the default appearance of barva.
+     *
+     * DO NOT DEFINE UNSAFE_OPTS UNLESS YOU ARE SURE
+     * THAT FLICKER CAN NOT CAUSE HARM TO YOUR HEALTH!
+     */
 #ifdef UNSAFE_OPTS
     parse_opt("BARVA_SAMPLE_RATE", &opts.sample_rate, parse_size_t);
     parse_opt("BARVA_INERTIA", &opts.inertia, parse_double);
