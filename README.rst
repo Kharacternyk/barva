@@ -11,6 +11,8 @@ Installation
 AUR
 ---
 
+``barva-git`` `is available in AUR<https://aur.archlinux.org/packages/barva-git/>`_
+
 ------
 Manual
 ------
