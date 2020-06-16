@@ -114,5 +114,6 @@ the colors used by ``barva``
 Vim
 ---
 
-To pulse the background of Vim, you should use a colorscheme that doesn't change
-the background color e.g ``peachpuff``. ``termguicolors`` (NeoVim) should be off.
+To let ``barva`` pulse the background of Vim, use a colorscheme that doesn't change
+the default terminal background color e.g ``peachpuff``.
+``termguicolors`` (NeoVim) must be off, too.
