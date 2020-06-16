@@ -58,6 +58,18 @@ static int parse_output_format(const char *str, void *out) {
     return -1;
 }
 
+/*
+ * INERTIA and SAMPLE_RATE options are not changeable by default.
+ * The reason is that misuse of these options may cause barva to
+ * not enough smooth the transitions i.e. flicker. This can be
+ * dangerous to flicker-sensitive people. The options are left
+ * accessible to the developers so that they can try to improve
+ * the default appearance of barva.
+ *
+ * DO NOT DEFINE UNSAFE_OPTS UNLESS YOU ARE SURE
+ * THAT FLICKER CAN NOT CAUSE HARM TO YOUR HEALTH!
+ */
+#ifdef UNSAFE_OPTS
 static int parse_size_t(const char *str, void *out) {
     size_t result;
     char *bad_char;
@@ -68,6 +80,7 @@ static int parse_size_t(const char *str, void *out) {
     *(size_t *)out = result;
     return 0;
 }
+#endif
 
 static void parse_opt(const char *optname, void *optfield,
                       int (*parser)(const char *str, void *out)) {
@@ -85,21 +98,24 @@ struct opts parse_opts(int argc, char *argv[]) {
     int is_tty = isatty(fileno(stdout));
     struct opts opts = {
         .source = NULL,
-        .sample_rate = 44100,
         .fps = 60.0,
-        .inertia = 0.9999,
         .bg = {{0, 0, 0}},
         .target = {{255, 255, 255}},
-        .output_format = is_tty ? TTY : HEX
+        .output_format = is_tty ? TTY : HEX,
+        .sample_rate = 44100,
+        .inertia = 0.9999,
     };
 
     parse_opt("BARVA_SOURCE", &opts.source, parse_str);
-    parse_opt("BARVA_SAMPLE_RATE", &opts.sample_rate, parse_size_t);
     parse_opt("BARVA_FPS", &opts.fps, parse_double);
-    parse_opt("BARVA_INERTIA", &opts.inertia, parse_double);
     parse_opt("BARVA_BG", &opts.bg, parse_color);
     parse_opt("BARVA_TARGET", &opts.target, parse_color);
     parse_opt("BARVA_OUTPUT_FORMAT", &opts.output_format, parse_output_format);
+
+#ifdef UNSAFE_OPTS
+    parse_opt("BARVA_SAMPLE_RATE", &opts.sample_rate, parse_size_t);
+    parse_opt("BARVA_INERTIA", &opts.inertia, parse_double);
+#endif
 
     return opts;
 }
