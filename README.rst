@@ -100,3 +100,10 @@ the colors used by ``barva``
     source ~/.cache/wal/colors.sh  
     export BARVA_BG=$background BARVA_TARGET=$foreground
     barva &
+
+---
+Vim
+---
+
+To pulse the background of Vim, you should use a colorscheme that doesn't change
+the background color e.g ``peachpuff``. ``termguicolors`` (NeoVim) should be off.
