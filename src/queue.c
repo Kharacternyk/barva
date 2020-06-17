@@ -9,7 +9,7 @@
  * If W(n) is the weight of sample n (n=0 for the most recent sample), then
  * W(n+1) = W(n) * INERTIA
  *
- * VALUES LESS THAT 0.9999 CAN CAUSE FLICKER
+ * VALUES LESS THAN 0.9999 CAN CAUSE FLICKER
  */
 #define INERTIA 0.9999
 
