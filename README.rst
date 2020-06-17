@@ -1,5 +1,8 @@
 ``barva`` is an audio visualizer that pulses the background of your terminal.
 
+`See it in action in this Reddit post
+<https://www.reddit.com/r/unixporn/comments/ha9q9q/oc_audio_visualizer_that_pulses_the_background_of/>`_
+
 .. contents:: Navigation:
    :backlinks: none
 
