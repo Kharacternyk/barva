@@ -31,8 +31,6 @@ int main(int argc, char *argv[]) {
 }
 
 void restore_bg(int sig) {
-    if (opts.output_format == TTY) {
-        set_bg(opts.bg, TTY);
-    };
+    set_bg(opts.bg, opts.output_format);
     exit(0);
 }

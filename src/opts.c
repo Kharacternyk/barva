@@ -55,6 +55,10 @@ static int parse_output_format(const char *str, void *out) {
         *(enum output_format *)out = HEX;
         return 0;
     }
+    if (strcasecmp(str, "BSPWM") == 0) {
+        *(enum output_format *)out = BSPWM;
+        return 0;
+    }
     return -1;
 }
 

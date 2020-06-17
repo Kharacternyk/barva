@@ -76,6 +76,9 @@ Customization is done via environmental variables (no CLI yet):
 |                         |                         |   background of the terminal. |
 |                         |                         | * ``HEX``: output the color in|
 |                         |                         |   hex, one per line.          |
+|                         |                         | * ``BSPWM``: change the border|
+|                         |                         |   color of windows under BSPWM|
+|                         |                         |   .                           |
 +-------------------------+-------------------------+-------------------------------+
 
 ===============
