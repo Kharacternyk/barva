@@ -13,9 +13,8 @@ struct queue {
     float *last;
     float *first;
     float *entry;
-    double inertia;
 };
 
-struct queue init_queue(double inertia);
+struct queue init_queue(void);
 void queue_put(struct queue *q, float values[], int values_length);
 float queue_mean(const struct queue *q);
