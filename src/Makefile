@@ -1,6 +1,9 @@
 debug: format check build
 	@./barva
 
+profile: build-profile
+	@./barva && gprof barva
+
 format:
 	@astyle --formatted --project *.c *.h
 
@@ -10,3 +13,5 @@ check:
 build:
 	@gcc -o barva -Wall *.c -lpulse -lpulse-simple -lm
 
+build-profile:
+	@gcc -pg -O3 -o barva -Wall *.c -lpulse -lpulse-simple -lm
