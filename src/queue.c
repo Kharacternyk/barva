@@ -14,7 +14,7 @@
 #define INERTIA 0.9999
 
 /*
- * When W(n) < EPSILON, the sample n is ignored (as if W(n) = 0)
+ * When W(n) < EPSILON, the sample n is ignored (as if W(n) = 0).
  * The smaller EPSILON is, the more memory is required for queue.
  */
 #define EPSILON 1e-6
