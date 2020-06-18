@@ -1,3 +1,5 @@
+.. image:: example.gif
+
 ``barva`` is an audio visualizer that pulses the background of your terminal.
 
 `See it in action in this Reddit post
