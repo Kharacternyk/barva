@@ -41,9 +41,9 @@ It's done via ``BARVA_SOURCE`` environmental variable. The common case is that y
 ``pa-get-default-monitor.sh``:
 
 * If you have built ``barva`` manually, ``cd`` into its directory and run
-  ``export BARVA_SOURCE=$(./pa-get-default-monitor.sh)``.
+  ``export BARVA_SOURCE=$(./scripts/pa-get-default-monitor.sh)``.
 * If you have got ``barva`` from AUR, run
-  ``export BARVA_SOURCE=$(pa-get-default-monitor)``.
+  ``export BARVA_SOURCE=$(/usr/share/barva/pa-get-default-monitor.sh)``.
 
 Then run ``barva`` or ``./barva`` while listening to some music. The background of
 the terminal should turn black and pulse towards white. Press ``Ctrl+C`` to exit.
