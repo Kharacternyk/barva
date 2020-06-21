@@ -78,10 +78,28 @@ Customization is done via environmental variables (no CLI yet):
 |                         |                         |   background of the terminal. |
 |                         |                         | * ``HEX``: output the color in|
 |                         |                         |   hex, one per line.          |
-|                         |                         | * ``BSPWM``: change the border|
-|                         |                         |   color of windows under BSPWM|
-|                         |                         |   .                           |
 +-------------------------+-------------------------+-------------------------------+
+
+=======
+Scripts
+=======
+
+All scripts in `scripts/` (except `pa-get-default-monitor.sh`)
+expect output of `barva` to be piped into them e.g `barva | bspwm-borders.sh`.
+If you have got `barva` from AUR, the scripts are located in `/usr/share/barva/`.
+
+--------------
+to-all-ttys.sh
+--------------
+
+Pulses the backgrounds of all terminals found in `/dev/pts/`. Consider using this
+script instead of running multiple `barva` instances: it will save you some CPU time.
+
+----------------
+bspwm-borders.sh
+----------------
+
+Pulses the window borders of windows under BSPWM.
 
 ===============
 Tips and tricks
