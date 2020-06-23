@@ -1,6 +1,7 @@
 #!/bin/sh
 
 pacmd list-sources | \
-awk '/\* index/{getline; print}' | \
-grep -m 1 '^.name: <.*\.monitor>' | \
+grep -B 1 '^.name: <.*\.monitor>' | \
+awk '/\* index/{getline;monitor=$0;print monitor} /[^\*] index/{getline;fallback=$0;if(monitor==""){print fallback}}' | \
+head -n 1 | \ 
 sed -E -e 's/^.name: <(.*)>$/\1/'
