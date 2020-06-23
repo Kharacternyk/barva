@@ -5,6 +5,8 @@
 `See it in action (with audio) in this Reddit post.
 <https://www.reddit.com/r/unixporn/comments/ha9q9q/oc_audio_visualizer_that_pulses_the_background_of/>`_
 
+The equalizer shown in the gif is `cava <https://github.com/karlstav/cava>`_.
+
 .. contents:: Navigation:
    :backlinks: none
 
