@@ -143,3 +143,9 @@ Vim
 To let ``barva`` pulse the background of Vim, use a colorscheme that doesn't change
 the default terminal background color e.g ``peachpuff``.
 ``termguicolors`` (NeoVim) must be off, too.
+
+=======
+License
+=======
+
+Every file in this directory except ``example.gif`` is licensed under terms of GNU General Public License version 3.
