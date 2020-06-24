@@ -30,7 +30,7 @@ Manual
 * On Fedora (CentOS, ...) you need ``pulseaudio`` and ``pulseaudio-libs-devel`` packages.
 * On Arch (Manjaro, ...) you need just ``pulseaudio`` package.
 
-Then just run ``make`` in the project's root directory (GCC is required).
+Clone this repository, ``cd`` into its directory and run ``make`` (GCC is required).
 The binary is named ``barva``. You can move it to somewhere in your ``$PATH``.
 
 =====
@@ -42,7 +42,7 @@ It's done via ``BARVA_SOURCE`` environmental variable. The common case is that y
 ``barva`` to monitor your default audio sink. It can be accomplished with the help of
 ``pa-get-default-monitor.sh``:
 
-* If you have built ``barva`` manually, ``cd`` into its directory and run
+* If you have built ``barva`` manually, ``cd`` into the repository and run
   ``export BARVA_SOURCE=$(./scripts/pa-get-default-monitor.sh)``.
 * If you have got ``barva`` from AUR, run
   ``export BARVA_SOURCE=$(/usr/share/barva/pa-get-default-monitor.sh)``.
@@ -101,7 +101,7 @@ script instead of running multiple ``barva`` instances: it will save you some CP
 bspwm-borders.sh
 ----------------
 
-Pulses the window borders of windows under BSPWM.
+Pulses the borders of not-focused windows under BSPWM.
 
 ===============
 Tips and tricks
