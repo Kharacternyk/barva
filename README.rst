@@ -51,7 +51,7 @@ Then run ``barva`` or ``./barva`` while listening to some music. The background 
 the terminal should turn black and pulse towards white. Press ``Ctrl+C`` to exit.
 
 You can send ``barva`` to the background and switch to another CLI program e.g Vim:
-just run ``barva &``. To terminate barva, run ``killall barva`` or some other equivalent.
+just run ``barva &``. To terminate ``barva``, run ``killall barva`` or some other equivalent.
 
 =============
 Customization
