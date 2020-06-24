@@ -69,17 +69,17 @@ Customization is done via environmental variables (no CLI yet):
 |                         |                         | terminal                      |
 +-------------------------+-------------------------+-------------------------------+
 | ``BARVA_TARGET``        | ``#FFFFFF``             | The color "towards which" the |
-|                         |                         | background pulses.            |
+|                         |                         | background pulses             |
 +-------------------------+-------------------------+-------------------------------+
 | ``BARVA_FPS``           | ``60``                  | The number of times the       |
-|                         |                         | background is updated per sec.|
+|                         |                         | background is updated per sec |
 +-------------------------+-------------------------+-------------------------------+
-| ``BARVA_OUTPUT_FORMAT`` | ``TTY`` if ``stdout`` is| The format of output.         |
+| ``BARVA_OUTPUT_FORMAT`` | ``TTY`` if ``stdout`` is| The format of output          |
 |                         | a tty, ``HEX`` otherwise|                               |
 |                         |                         | * ``TTY``: change the         |
-|                         |                         |   background of the terminal. |
+|                         |                         |   background of the terminal  |
 |                         |                         | * ``HEX``: output the color in|
-|                         |                         |   hex, one per line.          |
+|                         |                         |   hex, one per line           |
 +-------------------------+-------------------------+-------------------------------+
 
 =======
