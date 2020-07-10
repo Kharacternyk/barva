@@ -88,6 +88,9 @@ struct opts parse_opts(int argc, char *argv[]) {
     parse_opt("BARVA_FPS", &opts.fps, parse_double);
     parse_opt("BARVA_BG", &opts.bg, parse_color);
     parse_opt("BARVA_TARGET", &opts.target, parse_color);
+
+    /* This opt has two names, let the longer one take precedence */
+    parse_opt("BARVA_FORMAT", &opts.output_format, parse_output_format);
     parse_opt("BARVA_OUTPUT_FORMAT", &opts.output_format, parse_output_format);
 
     return opts;

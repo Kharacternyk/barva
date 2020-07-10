@@ -71,8 +71,8 @@ Customization is done via environmental variables (no CLI yet):
 | ``BARVA_FPS``           | ``60``                  | The number of times the       |
 |                         |                         | background is updated per sec |
 +-------------------------+-------------------------+-------------------------------+
-| ``BARVA_OUTPUT_FORMAT`` | ``TTY`` if ``stdout`` is| The format of output          |
-|                         | a tty, ``HEX`` otherwise|                               |
+| ``BARVA_FORMAT`` or     | ``TTY`` if ``stdout`` is| The format of output          |
+| ``BARVA_OUTPUT_FORMAT`` | a tty, ``HEX`` otherwise|                               |
 |                         |                         | * ``TTY``: change the         |
 |                         |                         |   background of the terminal  |
 |                         |                         | * ``HEX``: output the color in|
