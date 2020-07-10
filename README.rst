@@ -77,6 +77,10 @@ Customization is done via environmental variables (no CLI yet):
 |                         |                         |   background of the terminal  |
 |                         |                         | * ``HEX``: output the color in|
 |                         |                         |   hex, one per line           |
+|                         |                         | * ``BYT``: output the raw     |
+|                         |                         |   value in range [0-255]      |
+|                         |                         |   (ignores ``BARVA_BG`` and   |
+|                         |                         |   ``BARVA_TARGET``)           |
 +-------------------------+-------------------------+-------------------------------+
 
 =======

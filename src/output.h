@@ -4,9 +4,10 @@
 #include "color.h"
 
 enum output_format {
-    TTY, HEX
+    TTY, HEX, BYT
 };
 
-void set_bg(struct color bg, enum output_format fmt);
+void set_bg(float value, struct color bg, struct color target,
+            enum output_format fmt);
 
 #endif

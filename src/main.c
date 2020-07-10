@@ -26,11 +26,11 @@ int main(int argc, char *argv[]) {
         float buffer[sample_chunk_size];
         get_samples(s, sample_chunk_size, buffer);
         queue_put(&queue, buffer, sample_chunk_size);
-        set_bg(color_mean(opts.bg, opts.target, queue_mean(&queue)), opts.output_format);
+        set_bg(queue_mean(&queue), opts.bg, opts.target, opts.output_format);
     }
 }
 
 void restore_bg(int sig) {
-    set_bg(opts.bg, opts.output_format);
+    set_bg(0, opts.bg, opts.target, opts.output_format);
     exit(0);
 }

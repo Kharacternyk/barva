@@ -55,6 +55,10 @@ static int parse_output_format(const char *str, void *out) {
         *(enum output_format *)out = HEX;
         return 0;
     }
+    if (strcasecmp(str, "BYT") == 0) {
+        *(enum output_format *)out = BYT;
+        return 0;
+    }
     return -1;
 }
 
