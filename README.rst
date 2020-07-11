@@ -106,6 +106,32 @@ bspwm-borders.sh
 
 Pulses the borders of not-focused windows under BSPWM.
 
+=======
+Arduino
+=======
+
+``barva``, apart from the color, can also stream the raw byte value that is easy to
+process on an Arduino board. This could be used for some fancy hardware setups, such as
+a LED ribbon that pulses.
+
+Assuming that you have set up a serial tty for your Arduino
+(see `Arch Wiki <https://wiki.archlinux.org/index.php/Arduino#stty>`_)
+you can just redirect ``barva``'s ``stdout`` to the tty:
+
+.. code-block:: bash
+
+    BARVA_FORMAT=BYT barva > /dev/ttyACM0
+
+(replace ``/dev/ttyACM0`` with the name of the tty if it's different).
+
+Then, on the Arduino side, read the value using ``Serial.read()``. Don't forget to
+setup the serial connection via ``Serial.begin()`` and check for presence of input
+before reading it via ``Serial.available()``.
+
+See ``arduino/barva.ino`` for an example sketch. It puts high voltage on a number of
+pins that depends on the value provided by ``barva``. Another possibility is to control
+a PWMable pin by setting the PWM frequency according to the value provided by ``barva``.
+
 ===============
 Tips and tricks
 ===============
