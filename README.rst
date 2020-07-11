@@ -93,18 +93,11 @@ All scripts in ``scripts/`` (except ``pa-get-default-monitor.sh``)
 expect output of ``barva`` to be piped into them e.g ``barva | bspwm-borders.sh``.
 If you have got ``barva`` from AUR, the scripts are located in ``/usr/share/barva/``.
 
---------------
-to-all-ttys.sh
---------------
+* ``to-all-ttys.sh``: pulses the backgrounds of all terminals found in ``/dev/pts/``.
+  Consider using this script instead of running multiple ``barva`` instances:
+  it will save you some CPU time.
 
-Pulses the backgrounds of all terminals found in ``/dev/pts/``. Consider using this
-script instead of running multiple ``barva`` instances: it will save you some CPU time.
-
-----------------
-bspwm-borders.sh
-----------------
-
-Pulses the borders of not-focused windows under BSPWM.
+* ``bspwm-borders.sh``: pulses the borders of not-focused windows under BSPWM.
 
 =======
 Arduino
@@ -133,7 +126,7 @@ pins that depends on the value provided by ``barva``. Another possibility is to 
 a PWMable pin by setting the PWM frequency according to the value provided by ``barva``.
 
 ===============
-Tips and tricks
+Tips And Tricks
 ===============
 
 ----------
