@@ -2,7 +2,7 @@
 
 ``barva`` is an audio visualizer that pulses the background of your terminal.
 ``barva`` can also stream the color so that it is used to pulse something else
-(see `Scripts`_ for some examples).
+(see `Scripts`_ and `Arduino`_ for some examples).
 
 The equalizer shown in the gif is `cava <https://github.com/karlstav/cava>`_.
 
