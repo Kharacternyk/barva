@@ -18,6 +18,9 @@ AUR
 ---
 
 ``barva-git`` `is available in AUR <https://aur.archlinux.org/packages/barva-git/>`_.
+You can use AUR only if you run an Arch-based machine.
+
+Look below to find how to run on a non Arch-based machine.
 
 ------
 Manual
