@@ -19,6 +19,8 @@ AUR
 
 ``barva-git`` `is available in AUR <https://aur.archlinux.org/packages/barva-git/>`_.
 
+For those running a non arch machine, compile the source with make. Then run the ./barva command for it to run.
+
 ------
 Manual
 ------
