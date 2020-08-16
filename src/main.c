@@ -8,8 +8,8 @@
 #include "queue.h"
 #include "opts.h"
 
-struct opts opts;
-void restore_bg(int sig);
+static struct opts opts;
+static void restore_bg(int sig);
 
 int main(int argc, char *argv[]) {
     opts = parse_opts(argc, argv);
@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
     }
 }
 
-void restore_bg(int sig) {
+static void restore_bg(int sig) {
     set_bg(0, opts.bg, opts.target, opts.output_format);
     exit(0);
 }
