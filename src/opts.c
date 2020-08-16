@@ -93,5 +93,17 @@ struct opts parse_opts(int argc, char *argv[]) {
     parse_opt("BARVA_FORMAT", &opts.output_format, parse_output_format);
     parse_opt("BARVA_OUTPUT_FORMAT", &opts.output_format, parse_output_format);
 
+    /*
+     * NULL is a stub, not a sensible default.
+     * Complain on unset source.
+     */
+    if (opts.source == NULL) {
+        fprintf(stderr, "BARVA_SOURCE is not set.\n"
+                "Please do `export BARVA_SOURCE=*source*`"
+                " where *source* is a valid PulseAudio source name.\n"
+                "Refer to the README for more details.\n");
+        exit(BAD_ARG_CODE);
+    }
+
     return opts;
 }
