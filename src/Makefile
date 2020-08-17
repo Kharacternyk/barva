@@ -5,7 +5,7 @@ profile: build-profile
 	@./barva && gprof barva
 
 build:
-	@gcc -o barva -Wall *.c -lpulse -lpulse-simple -lm
+	@gcc -g -o barva -Wall *.c -lpulse -lpulse-simple -lm
 
 build-profile:
 	@gcc -pg -O3 -o barva -Wall *.c -lpulse -lpulse-simple -lm
