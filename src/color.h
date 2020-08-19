@@ -1,5 +1,5 @@
-#ifndef __color__
-#define __color__
+#ifndef COLOR_H
+#define COLOR_H
 
 struct color {
     int rgb[3];
