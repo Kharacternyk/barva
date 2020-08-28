@@ -27,17 +27,22 @@ size_t get_sample_chunk_size(double fps) {
     return SAMPLE_RATE / fps;
 }
 
-pa_simple *get_pa_simple(const char *source_name) {
+pa_simple *get_pa_simple(const char *source_name, size_t sample_chunk_size) {
     pa_simple *s;
-    pa_sample_spec ss;
-
-    ss.format = PA_SAMPLE_FLOAT32NE;
-    ss.channels = 1;
-    ss.rate = SAMPLE_RATE;
+    pa_buffer_attr ba = {
+        .fragsize = sample_chunk_size,
+        /* This magic value lets PulseAudio pick a sensible default for us. */
+        .maxlength = (uint32_t) -1
+    };
+    pa_sample_spec ss = {
+        .format = PA_SAMPLE_FLOAT32NE,
+        .channels = 1,
+        .rate = SAMPLE_RATE
+    };
 
     int error = 0;
     s = pa_simple_new(NULL, "barva", PA_STREAM_RECORD, source_name, "barva",
-                      &ss, NULL, NULL, &error);
+                      &ss, NULL, &ba, &error);
     check(error);
     return s;
 }

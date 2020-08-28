@@ -73,7 +73,7 @@ Customization is done via environmental variables (no CLI yet):
 | ``BARVA_TARGET``        | ``#FFFFFF``             | The color "towards which" the |
 |                         |                         | background pulses             |
 +-------------------------+-------------------------+-------------------------------+
-| ``BARVA_FPS``           | ``60``                  | The number of times the       |
+| ``BARVA_FPS``           | ``30``                  | The number of times the       |
 |                         |                         | background is updated per sec |
 +-------------------------+-------------------------+-------------------------------+
 | ``BARVA_FORMAT`` or     | ``TTY`` if ``stdout`` is| The format of output          |
@@ -143,12 +143,8 @@ If you use "raw" Xorg without a DE, consider running a compositor like ``picom``
 FPS
 ---
 
-The CPU usage of ``barva`` is roughly proportional to the value of ``BARVA_FPS``.
-Therefore, lowering the value is the first thing to try to improve performance
-(please report such cases, ``barva`` is supposed to be reasonably fast *everywhere*).
-
-If you have a high refresh-rate monitor, you may try making ``BARVA_FPS`` bigger:
-the appearance may improve (at the cost of CPU cycles, though).
+You could try bumping FPS to improve visual appearance. Beware of possible audio
+quality drop.
 
 -----
 Pywal

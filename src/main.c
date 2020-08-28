@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     signal(SIGINT, restore_bg);
     signal(SIGTERM, restore_bg);
 
-    pa_simple *s = get_pa_simple(opts.source);
+    pa_simple *s = get_pa_simple(opts.source, sample_chunk_size);
 
     struct queue queue = init_queue();
 

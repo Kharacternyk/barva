@@ -78,7 +78,7 @@ struct opts parse_opts(int argc, char *argv[]) {
     int is_tty = isatty(fileno(stdout));
     struct opts opts = {
         .source = NULL,
-        .fps = 60.0,
+        .fps = 30.0,
         .bg = {{0, 0, 0}},
         .target = {{255, 255, 255}},
         .output_format = is_tty ? TTY : HEX,
