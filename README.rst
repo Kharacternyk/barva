@@ -129,7 +129,7 @@ pins that depends on the value provided by ``barva``. Another possibility is to 
 a PWMable pin by setting the PWM frequency according to the value provided by ``barva``.
 
 ===============
-Tips And Tricks
+Tips and tricks
 ===============
 
 ----------
