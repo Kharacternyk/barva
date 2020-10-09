@@ -4,8 +4,6 @@
 ``barva`` can also stream the color so that it is used to pulse something else
 (see `Scripts`_ and `Arduino`_ for some examples).
 
-The equalizer shown in the gif is `cava <https://github.com/karlstav/cava>`_.
-
 .. contents:: Navigation:
    :backlinks: none
 
@@ -18,9 +16,8 @@ AUR
 ---
 
 ``barva-git`` `is available in AUR <https://aur.archlinux.org/packages/barva-git/>`_.
-You can use AUR only if you run an Arch-based machine.
-
-Look below to find how to run on a non Arch-based machine.
+You can use AUR only if you run an Arch-based distribution. You have to install manually
+otherwise, see the section below.
 
 ------
 Manual
@@ -32,17 +29,16 @@ Manual
 * On Fedora (CentOS, ...) you need ``pulseaudio`` and ``pulseaudio-libs-devel`` packages.
 * On Arch (Manjaro, ...) you need just ``pulseaudio`` package.
 
-Clone this repository, ``cd`` into its directory and run ``make`` (GCC is required).
+Clone this repository, ``cd`` into its directory, and run ``make`` (GCC is required).
 The binary is named ``barva``. You can move it to somewhere in your ``$PATH``.
 
 =====
 Usage
 =====
 
-You need to specify the name of PulseAudio source from which ``barva`` should read audio.
-It's done via ``BARVA_SOURCE`` environmental variable. The common case is that you want
-``barva`` to monitor your default audio sink. It can be accomplished with the help of
-``pa-get-default-monitor.sh``:
+You need to tell ``barva`` which PulseAudio source to listen to.  It's done via the
+``BARVA_SOURCE`` environmental variable. The common choice is the monitor of the default
+audio sink. If that's what you want, then:
 
 * If you have built ``barva`` manually, ``cd`` into the repository and run
   ``export BARVA_SOURCE=$(./scripts/pa-get-default-monitor.sh)``.
@@ -52,8 +48,8 @@ It's done via ``BARVA_SOURCE`` environmental variable. The common case is that y
 Then run ``barva`` or ``./barva`` while listening to some music. The background of
 the terminal should turn black and pulse towards white. Press ``Ctrl+C`` to exit.
 
-You can send ``barva`` to the background and switch to another CLI program e.g Vim:
-just run ``barva &``. To terminate ``barva``, run ``killall barva`` or some other equivalent.
+``barva`` can be a background process: run ``barva &`` and switch to another CLI program
+e.g Vim. To terminate ``barva`` run ``killall barva``.
 
 =============
 Customization
@@ -65,7 +61,7 @@ Customization is done via environmental variables (no CLI yet):
 | Variable                | Default value           | Description                   |
 +=========================+=========================+===============================+
 | ``BARVA_SOURCE``        | ``NULL``                | The PulseAudio source from    |
-|                         |                         | which audio is read           |
+|                         |                         | which the audio data is read  |
 +-------------------------+-------------------------+-------------------------------+
 | ``BARVA_BG``            | ``#000000``             | The background color of the   |
 |                         |                         | terminal                      |
@@ -76,12 +72,12 @@ Customization is done via environmental variables (no CLI yet):
 | ``BARVA_FPS``           | ``30``                  | The number of times the       |
 |                         |                         | background is updated per sec |
 +-------------------------+-------------------------+-------------------------------+
-| ``BARVA_FORMAT`` or     | ``TTY`` if ``stdout`` is| The format of output          |
+| ``BARVA_FORMAT`` or     | ``TTY`` if ``stdout`` is| The output format             |
 | ``BARVA_OUTPUT_FORMAT`` | a tty, ``HEX`` otherwise|                               |
 |                         |                         | * ``TTY``: change the         |
 |                         |                         |   background of the terminal  |
 |                         |                         | * ``HEX``: output the color in|
-|                         |                         |   hex, one per line           |
+|                         |                         |   hex followed by a line feed |
 |                         |                         | * ``BYT``: output the raw     |
 |                         |                         |   value in range [0-255]      |
 |                         |                         |   (ignores ``BARVA_BG`` and   |
@@ -92,26 +88,24 @@ Customization is done via environmental variables (no CLI yet):
 Scripts
 =======
 
-All scripts in ``scripts/`` (except ``pa-get-default-monitor.sh``)
-expect output of ``barva`` to be piped into them e.g ``barva | bspwm-borders.sh``.
-If you have got ``barva`` from AUR, the scripts are located in ``/usr/share/barva/``.
+All scripts in ``scripts/`` except ``pa-get-default-monitor.sh`` expect the output of
+``barva`` to be piped into them e.g ``barva | bspwm-borders.sh``.  If you have got
+``barva`` from AUR, the scripts are located in ``/usr/share/barva/``.
 
 * ``to-all-ttys.sh``: pulses the backgrounds of all terminals found in ``/dev/pts/``.
-  Consider using this script instead of running multiple ``barva`` instances:
-  it will save you some CPU time.
+  Consider using this script instead of running multiple ``barva`` instances.
 
-* ``bspwm-borders.sh``: pulses the borders of not-focused windows under BSPWM.
+* ``bspwm-borders.sh``: pulses the borders of unfocused windows under BSPWM.
 
 =======
 Arduino
 =======
 
-``barva``, apart from the color, can also stream the raw byte value that is easy to
-process on an Arduino board. This could be used for some fancy hardware setups, such as
-a LED ribbon that pulses.
+``barva`` can stream raw bytes that are easy to process on an Arduino board. This could
+be used for some fancy hardware setups, such as a LED ribbon that pulses.
 
 Assuming that you have set up a serial tty for your Arduino
-(see `Arch Wiki <https://wiki.archlinux.org/index.php/Arduino#stty>`_)
+(see `Arch Wiki <https://wiki.archlinux.org/index.php/Arduino#stty>`_),
 you can just redirect ``barva``'s ``stdout`` to the tty:
 
 .. code-block:: bash
@@ -120,9 +114,9 @@ you can just redirect ``barva``'s ``stdout`` to the tty:
 
 (replace ``/dev/ttyACM0`` with the name of the tty if it's different).
 
-Then, on the Arduino side, read the value using ``Serial.read()``. Don't forget to
-setup the serial connection via ``Serial.begin()`` and check for presence of input
-before reading it via ``Serial.available()``.
+Then read the values using ``Serial.read()`` on the Arduino side. Don't forget to
+setup the serial connection via ``Serial.begin()`` and check for presence of the values
+via ``Serial.available()``.
 
 See ``arduino/barva.ino`` for an example sketch. It puts high voltage on a number of
 pins that depends on the value provided by ``barva``. Another possibility is to control
@@ -137,21 +131,21 @@ Compositor
 ----------
 
 If you use "raw" Xorg without a DE, consider running a compositor like ``picom`` or
-``compton``. It eliminates tearing, thus making ``barva`` smoother.
+``compton``. It eliminates tearing and makes the pulsing smoother.
 
 ---
 FPS
 ---
 
-You could try bumping FPS to improve visual appearance. Beware of possible audio
+You could try bumping FPS to improve visual appearance. Beware of the possible audio
 quality drop.
 
 -----
 Pywal
 -----
 
-Pywal generates a nice ``~/.cache/wal/colors.sh`` file that you may use to set
-the colors used by ``barva``
+Pywal generates a nice shell script that you could use to set the colors used by
+``barva``
 
 .. code-block:: bash
 
@@ -163,6 +157,6 @@ the colors used by ``barva``
 Vim
 ---
 
-To let ``barva`` pulse the background of Vim, use a colorscheme that doesn't change
-the default terminal background color e.g ``peachpuff``.
-``termguicolors`` (NeoVim) must be off, too.
+Use a colorscheme that doesn't change the default terminal background color e.g
+``peachpuff`` to let ``barva`` pulse the background of Vim. ``termguicolors``
+(NeoVim) must be off, too.
