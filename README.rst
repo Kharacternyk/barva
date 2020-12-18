@@ -25,11 +25,16 @@ Manual
 
 ``barva`` depends on PulseAudio and its headers:
 
-* On Debian (Ubuntu, Mint, ...) you need ``pulseaudio`` and ``libpulse-dev`` packages.
-* On Fedora (CentOS, ...) you need ``pulseaudio`` and ``pulseaudio-libs-devel`` packages.
-* On Arch (Manjaro, ...) you need just ``pulseaudio`` package.
+* On Debian (Ubuntu, Mint, …) you need ``pulseaudio`` and ``libpulse-dev`` packages.
+* On Fedora (CentOS, …) you need ``pulseaudio`` and ``pulseaudio-libs-devel`` packages.
+* On Arch (Manjaro, …) you need just ``pulseaudio`` package.
 
-Clone this repository, ``cd`` into its directory, and run ``make`` (GCC is required).
+.. code-block:: bash
+
+    git clone https://github.com/Kharacternyk/barva
+    cd barva/src/
+    CFLAGS=-O2 make
+
 The binary is named ``barva``. You can move it to somewhere in your ``$PATH``.
 
 =====
@@ -45,7 +50,7 @@ audio sink. If that's what you want, then:
 * If you have got ``barva`` from AUR, run
   ``export BARVA_SOURCE=$(/usr/share/barva/pa-get-default-monitor.sh)``.
 
-Then run ``barva`` or ``./barva`` while listening to some music. The background of
+Then run ``barva`` while listening to some music. The background of
 the terminal should turn black and pulse towards white. Press ``Ctrl+C`` to exit.
 
 ``barva`` can be a background process: run ``barva &`` and switch to another CLI program
