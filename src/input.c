@@ -22,7 +22,9 @@ static void check(int error) {
     }
 }
 
-size_t get_sample_chunk_size(double fps) { return SAMPLE_RATE / fps; }
+size_t get_sample_chunk_size(double fps) {
+    return SAMPLE_RATE / fps;
+}
 
 pa_simple *get_pa_simple(const char *source_name, size_t sample_chunk_size) {
     pa_simple *s;
