@@ -1,12 +1,11 @@
-#include <pulse/simple.h>
-#include <pulse/error.h>
-#include <pulse/pulseaudio.h>
-#include <signal.h>
-
 #include "input.h"
+#include "opts.h"
 #include "output.h"
 #include "queue.h"
-#include "opts.h"
+#include <pulse/error.h>
+#include <pulse/pulseaudio.h>
+#include <pulse/simple.h>
+#include <signal.h>
 
 static struct opts opts;
 static void restore_bg(int sig);

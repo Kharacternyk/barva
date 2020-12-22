@@ -1,9 +1,8 @@
+#include "input.h"
+#include "errorcodes.h"
 #include <pulse/error.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#include "input.h"
-#include "errorcodes.h"
 
 /*
  * PulseAudio will resample it for us if needed.
@@ -23,26 +22,20 @@ static void check(int error) {
     }
 }
 
-size_t get_sample_chunk_size(double fps) {
-    return SAMPLE_RATE / fps;
-}
+size_t get_sample_chunk_size(double fps) { return SAMPLE_RATE / fps; }
 
 pa_simple *get_pa_simple(const char *source_name, size_t sample_chunk_size) {
     pa_simple *s;
     pa_buffer_attr ba = {
         .fragsize = sample_chunk_size,
         /* This magic value lets PulseAudio pick a sensible default for us. */
-        .maxlength = (uint32_t) -1
-    };
+        .maxlength = (uint32_t)-1};
     pa_sample_spec ss = {
-        .format = PA_SAMPLE_FLOAT32NE,
-        .channels = 1,
-        .rate = SAMPLE_RATE
-    };
+        .format = PA_SAMPLE_FLOAT32NE, .channels = 1, .rate = SAMPLE_RATE};
 
     int error = 0;
-    s = pa_simple_new(NULL, "barva", PA_STREAM_RECORD, source_name, "barva",
-                      &ss, NULL, &ba, &error);
+    s = pa_simple_new(NULL, "barva", PA_STREAM_RECORD, source_name, "barva", &ss, NULL,
+                      &ba, &error);
     check(error);
     return s;
 }

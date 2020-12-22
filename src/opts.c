@@ -1,10 +1,9 @@
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
 #include "opts.h"
 #include "errorcodes.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 static int parse_color(const char *str, void *out) {
     if (str == NULL || strlen(str) != 7 || str[0] != '#') {
@@ -13,7 +12,7 @@ static int parse_color(const char *str, void *out) {
     ++str;
 
     struct color c;
-    char rgb_str [3][3];
+    char rgb_str[3][3];
     for (int i = 0; i < 3; ++i) {
         rgb_str[i][0] = *str++;
         rgb_str[i][1] = *str++;
@@ -99,9 +98,9 @@ struct opts parse_opts(int argc, char *argv[]) {
      */
     if (opts.source == NULL) {
         fprintf(stderr, "BARVA_SOURCE is not set.\n"
-                "Please do `export BARVA_SOURCE=*source*`"
-                " where *source* is a valid PulseAudio source name.\n"
-                "Refer to the README for more details.\n");
+                        "Please do `export BARVA_SOURCE=*source*`"
+                        " where *source* is a valid PulseAudio source name.\n"
+                        "Refer to the README for more details.\n");
         exit(BAD_ARG_CODE);
     }
 

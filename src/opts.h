@@ -1,7 +1,6 @@
-#include <stdint.h>
-
 #include "color.h"
 #include "output.h"
+#include <stdint.h>
 
 struct opts {
     const char *source;

@@ -1,7 +1,6 @@
+#include "queue.h"
 #include <math.h>
 #include <stdlib.h>
-
-#include "queue.h"
 
 /*
  * A value in range (0; 1).
@@ -19,9 +18,7 @@
  */
 #define EPSILON 1e-6
 
-static int length(const struct queue *q) {
-    return q->last - q->first + 1;
-}
+static int length(const struct queue *q) { return q->last - q->first + 1; }
 
 struct queue init_queue(void) {
     size_t size = log(EPSILON) / log(INERTIA);
