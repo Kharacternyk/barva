@@ -1,6 +1,25 @@
 repos:
-  - repo: https://github.com/pocc/pre-commit-hooks
-    rev: python
+
+  - repo: https://github.com/asottile/reorder_python_imports
+    rev: master
     hooks:
-      - id: clang-format
-        args: [-i]
+      - id: reorder-python-imports
+
+  - repo: https://github.com/psf/black
+    rev: master
+    hooks:
+      - id: black
+
+  - repo: https://gitlab.com/pyCQA/flake8
+    rev: master
+    hooks:
+      - id: flake8
+
+# - repo: local
+#   hooks:
+#     - id: pytest
+#       name: pytest
+#       language: system
+#       entry: /usr/bin/pytest -qq
+#       pass_filenames: false
+#       types: [python]
