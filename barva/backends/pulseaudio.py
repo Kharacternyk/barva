@@ -63,5 +63,4 @@ class Backend:
             self._lib.pa_simple_read(
                 self._pa_simple, samples, sizeof(samples), byref(self._error)
             )
-            for s in samples:
-                yield s
+            yield samples
