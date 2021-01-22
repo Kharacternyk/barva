@@ -33,11 +33,11 @@ class pa_simple_t(c_void_p):
 
 
 class PulseAudioBackend:
-    def __init__(self, window_size, *, lib_path="libpulse-simple.so.0"):
+    def __init__(self, window_size):
         PA_STREAM_RECORD = 2
         PA_SAMPLE_FLOAT32LE = 5
 
-        self._lib = CDLL(lib_path)
+        self._lib = CDLL("libpulse-simple.so.0")
         self._lib.pa_simple_new.restype = pa_simple_t
         self._error = c_int(0)
 
