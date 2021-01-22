@@ -32,8 +32,8 @@ class pa_simple_t(c_void_p):
     pass
 
 
-class Backend:
-    def __init__(self, refresh_ratio=24, *, lib_path="libpulse-simple.so.0"):
+class pulseaudio:
+    def __init__(self, window_size, *, lib_path="libpulse-simple.so.0"):
         PA_STREAM_RECORD = 2
         PA_SAMPLE_FLOAT32LE = 5
 
@@ -52,7 +52,7 @@ class Backend:
         source = sink[1] + b".monitor"
         sample_rate = int(sink[-2][:-2])
 
-        self._chunk_size = int(sample_rate / refresh_ratio)
+        self._chunk_size = int(sample_rate * window_size)
 
         sample_spec = pa_sample_spec_t(PA_SAMPLE_FLOAT32LE, sample_rate, 1)
         buffer_attr = pa_buffer_attr_t(-1, 0, 0, 0, self._chunk_size)
