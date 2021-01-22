@@ -7,9 +7,7 @@ from ctypes import c_void_p
 from ctypes import CDLL
 from ctypes import sizeof
 from ctypes import Structure
-
-PA_STREAM_RECORD = 2
-PA_SAMPLE_FLOAT32LE = 5
+from subprocess import run
 
 
 class pa_buffer_attr_t(Structure):
@@ -35,12 +33,25 @@ class pa_simple_t(c_void_p):
 
 
 class Backend:
-    def __init__(
-        self, sample_rate=44100, refresh_ratio=24, *, lib_path="libpulse-simple.so.0"
-    ):
+    def __init__(self, refresh_ratio=24, *, lib_path="libpulse-simple.so.0"):
+        PA_STREAM_RECORD = 2
+        PA_SAMPLE_FLOAT32LE = 5
+
         self._lib = CDLL(lib_path)
         self._lib.pa_simple_new.restype = pa_simple_t
         self._error = c_int(0)
+
+        pactl = run(["pactl", "list", "short", "sinks"], capture_output=True)
+        sinks = [sink.split() for sink in pactl.stdout.splitlines()]
+        active_sinks = [sink for sink in sinks if sink[-1] == b"RUNNING"]
+        if active_sinks:
+            sink = active_sinks[0]
+        else:
+            sink = sinks[0]
+
+        source = sink[1] + b".monitor"
+        sample_rate = int(sink[-2][:-2])
+
         self._chunk_size = int(sample_rate / refresh_ratio)
 
         sample_spec = pa_sample_spec_t(PA_SAMPLE_FLOAT32LE, sample_rate, 1)
@@ -49,7 +60,7 @@ class Backend:
             None,
             b"barva",
             PA_STREAM_RECORD,
-            b"alsa_output.pci-0000_01_00.0.analog-stereo.monitor",
+            source,
             b"barva",
             byref(sample_spec),
             None,
