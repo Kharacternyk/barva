@@ -32,7 +32,7 @@ class pa_simple_t(c_void_p):
     pass
 
 
-class pulseaudio:
+class PulseAudioBackend:
     def __init__(self, window_size, *, lib_path="libpulse-simple.so.0"):
         PA_STREAM_RECORD = 2
         PA_SAMPLE_FLOAT32LE = 5
