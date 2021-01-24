@@ -1,11 +1,11 @@
 #!/usr/bin/env python
+import frontends
 from fire import Fire
-from frontends import *
 
 
 def main():
     try:
-        Fire()
+        Fire(frontends)
     except KeyboardInterrupt:
         print()
 
