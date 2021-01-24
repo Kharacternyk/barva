@@ -1,2 +1,2 @@
-from .fft_dumb import fft_dumb
+from .fft import fft
 from .pulsar import pulsar
