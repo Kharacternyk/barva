@@ -3,12 +3,14 @@ from backend import Backend
 
 
 def fft(n: int = 5, window_size: float = 0.05):
-    """Print results of the one-dimensional n-point DFT to stdout.
+    """Yield results of the one-dimensional n-point DFT.
 
     Args:
         n: The n-point DFT will be computed.
+        window_size: The timespan over which the DFT is computed.
     """
 
-    backend = Backend(window_size)
-    for samples in backend:
-        print(" ".join(f"{s:.4f}" for s in abs(numpy.fft.fft(samples, n))))
+    return (
+        " ".join(f"{s:.4f}" for s in abs(numpy.fft.fft(samples, n)))
+        for samples in Backend(window_size)
+    )
