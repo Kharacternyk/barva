@@ -1,33 +1,32 @@
 from collections import deque
 from math import log
 
-from backend import Backend
+from frontend import Frontend
+from utils import color
 
-INERTIA = 0.9999
-EPSILON = 1e-6
+_INERTIA = 0.9999
+_EPSILON = 1e-6
+_LENGTH = int(log(_EPSILON) / log(_INERTIA))
 
 
-def weighted_root_mean_square(seq):
+def _weighted_root_mean_square(seq):
     sum_ = 0
-    weight = (1 - INERTIA) / (1 - INERTIA ** len(seq))
+    weight = (1 - _INERTIA) / (1 - _INERTIA ** len(seq))
     for x in seq:
         sum_ += x * x * weight
-        weight *= INERTIA
+        weight *= _INERTIA
     return sum_ ** (1 / 2)
 
 
-def change_bg(value):
-    switchfg = f"\x1b[38;2;{round(value*255)};0;0m"
-    blocks = "████"
-    switchnull = "\x1b[0m"
-    print(switchfg + blocks + switchnull)
+class pulsar(Frontend):
+    def __init__(self, fps: float = 30, bg: str = "#000000", target="#FF0000"):
+        self.window_size = 1 / fps
+        self.queue = deque((0,) * _LENGTH, maxlen=_LENGTH)
+        self.bg = color.from_hex(bg)
+        self.target = color.from_hex(target)
 
-
-def pulsar(fps: float = 30):
-    backend = Backend(1 / fps)
-
-    length = int(log(EPSILON) / log(INERTIA))
-    queue = deque((0,) * length, maxlen=length)
-    for samples in backend:
-        queue.extendleft(samples)
-        change_bg(weighted_root_mean_square(queue))
+    def next(self, samples):
+        self.queue.extendleft(samples)
+        value = _weighted_root_mean_square(self.queue)
+        r, g, b = (c1 + (c2 - c1) * value for c1, c2 in zip(self.bg, self.target))
+        print(f"\033]11;{color.to_hex(r, g, b)}\007", end="", flush=True)
