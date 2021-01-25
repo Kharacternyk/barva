@@ -4,7 +4,10 @@ from fire import Fire
 
 
 def main():
-    Fire(frontends)
+    try:
+        Fire(frontends)
+    except KeyboardInterrupt:
+        print()
 
 
 if __name__ == "__main__":
