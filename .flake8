@@ -1,4 +1,2 @@
 [flake8]
 max-line-length = 88
-per-file-ignores = __init__.py: F401
-                   __main__.py: F401, F403
