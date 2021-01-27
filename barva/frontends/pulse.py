@@ -9,7 +9,7 @@ from numpy import sqrt
 from utils import color
 
 
-class pulsar(Frontend):
+class pulse(Frontend):
     def __init__(
         self,
         fps: float = 30,

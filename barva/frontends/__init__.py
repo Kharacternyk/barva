@@ -1,2 +1,2 @@
 from .fft import fft
-from .pulsar import pulsar
+from .pulse import pulse
