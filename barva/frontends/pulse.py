@@ -26,8 +26,8 @@ class pulse(Frontend):
         self.queue = deque((0,) * length, maxlen=length)
 
     def next(self, samples):
-        self.queue.appendleft(sqrt(mean(array(samples) ** 2)))
-        value = average(self.queue, weights=self.weights)
+        self.queue.appendleft(mean(array(samples) ** 2))
+        value = sqrt(average(self.queue, weights=self.weights))
         r, g, b = (c1 + (c2 - c1) * value for c1, c2 in zip(self.bg, self.target))
         print(f"\033]11;{color.to_hex(r, g, b)}\007", end="", flush=True)
 
