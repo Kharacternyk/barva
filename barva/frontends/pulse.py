@@ -20,13 +20,19 @@ class PulseRawFrontend(Frontend):
         cfrom: str = "#000000",
         cto: str = "#FF0000",
         inertia: float = 1.5,
-        epsilon: float = 1e-3,
     ):
+        """
+        Args:
+            fps: the number of times the color is updated per second
+            cfrom: pulse "from" this color
+            cto: pulse "to" this color
+            inertia: the timespan over which the color fades in case of silence
+        """
         self.window_size = 1 / fps
         self.cfrom = color.from_hex(cfrom)
         self.cto = color.from_hex(cto)
         length = int(fps * inertia)
-        self.weights = geomspace(1, epsilon, length)
+        self.weights = geomspace(1, 1e-3, length)
         self.queue = deque((0,) * length, maxlen=length)
 
     def next(self, samples):
