@@ -1,19 +1,18 @@
 #!/usr/bin/env python
-from fire import Fire
+from cli import cli
 from frontends.pulse import PulseRawFrontend
 from frontends.pulse import PulseTerminalFrontend
 from frontends.pulse import PulseTerminalsFrontend
 
-
-class CLI:
-    class pulse:
-        raw = PulseRawFrontend
-        term = PulseTerminalFrontend
-        terms = PulseTerminalsFrontend
+cmds = {
+    "pulse-raw": PulseRawFrontend,
+    "pulse-term": PulseTerminalFrontend,
+    "pulse-terms": PulseTerminalsFrontend,
+}
 
 
 def main():
-    Fire(CLI)
+    cli(cmds)
 
 
 if __name__ == "__main__":

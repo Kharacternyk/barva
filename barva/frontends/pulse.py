@@ -11,11 +11,14 @@ from utils import term
 
 
 class PulseRawFrontend(Frontend):
+    """Yield a color in hex that pulses."""
+
     def __init__(
         self,
+        *,
         fps: float = 30,
         cfrom: str = "#000000",
-        cto="#FF0000",
+        cto: str = "#FF0000",
         inertia: float = 1.5,
         epsilon: float = 1e-3,
     ):
@@ -34,6 +37,8 @@ class PulseRawFrontend(Frontend):
 
 
 class PulseTerminalFrontend(PulseRawFrontend):
+    """Pulse this terminal."""
+
     def next(self, samples):
         print(term.change_bg(super().next(samples)), end="", flush=True)
 
@@ -42,6 +47,8 @@ class PulseTerminalFrontend(PulseRawFrontend):
 
 
 class PulseTerminalsFrontend(PulseRawFrontend):
+    """Pulse all terminals."""
+
     def next(self, samples):
         term.to_all(term.change_bg(super().next(samples)))
 
