@@ -1,6 +1,8 @@
 from argparse import ArgumentParser
 from inspect import getfullargspec
 
+from backend import Backend
+
 
 def to_cli_flag(arg):
     return "--" + arg.rstrip("_")
@@ -36,8 +38,12 @@ def cli(cmds):
                 type=spec.annotations[arg],
             )
     args = parser.parse_args()
-    frontend = cmds[args.frontend]
+    frontend_type = cmds[args.frontend]
     del args.frontend
-    for val in frontend(**vars(args))():
-        if val is not None:
-            print(val)
+    with frontend_type(Backend, **vars(args)) as frontend:
+        try:
+            for value in frontend:
+                if value is not None:
+                    print(value)
+        except KeyboardInterrupt:
+            pass
