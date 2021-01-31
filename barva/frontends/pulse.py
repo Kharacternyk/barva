@@ -49,7 +49,7 @@ class PulseTerminalFrontend(PulseRawFrontend):
 
     def __iter__(self):
         for c in super().__iter__():
-            print(term.change_bg(c), end="", flush=True)
+            yield print(term.change_bg(c), end="", flush=True)
 
     def __exit__(self, etype, evalue, etrace):
         print(term.change_bg(color.to_hex(*self.cfrom)))
@@ -60,7 +60,7 @@ class PulseTerminalsFrontend(PulseRawFrontend):
 
     def __iter__(self):
         for c in super().__iter__():
-            term.to_all(term.change_bg(c))
+            yield term.to_all(term.change_bg(c))
 
     def __exit__(self, etype, evalue, etrace):
         term.to_all(term.change_bg(color.to_hex(*self.cfrom)))
