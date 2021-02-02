@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 from argparse import MetavarTypeHelpFormatter
 from inspect import getfullargspec
 
-from source import NativeSource
+from sources import NativeSource
 
 
 class Formatter(ArgumentDefaultsHelpFormatter, MetavarTypeHelpFormatter):

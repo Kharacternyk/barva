@@ -9,6 +9,8 @@ from ctypes import sizeof
 from ctypes import Structure
 from subprocess import run
 
+from source import Source
+
 
 class pa_buffer_attr_t(Structure):
     _fields_ = [
@@ -38,10 +40,7 @@ PA_STREAM_RECORD = 2
 PA_SAMPLE_FLOAT32LE = 5
 
 
-class PulseAudioSource:
-    def __init__(self, sampling_requirements):
-        self.sampling_requirements = sampling_requirements
-
+class PulseAudioSource(Source):
     def __enter__(self):
         pactl = run(["pactl", "list", "short", "sinks"], capture_output=True)
         sinks = [sink.split() for sink in pactl.stdout.splitlines()]
@@ -74,9 +73,6 @@ class PulseAudioSource:
 
     def __exit__(self, etype, evalue, etrace):
         LIB.pa_simple_free(self.pa_simple)
-
-    def __iter__(self):
-        return self
 
     def __next__(self):
         samples = (c_float * self.chunk_size)()
