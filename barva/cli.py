@@ -1,7 +1,7 @@
 from argparse import ArgumentParser
 from inspect import getfullargspec
 
-from backend import Backend
+from source import NativeSource
 
 
 def to_cli_flag(arg):
@@ -40,7 +40,7 @@ def cli(cmds):
     args = parser.parse_args()
     frontend_type = cmds[args.frontend]
     del args.frontend
-    with frontend_type(**vars(args)) as frontend, Backend(
+    with frontend_type(**vars(args)) as frontend, NativeSource(
         frontend.sampling_requirements
     ) as backend:
         try:

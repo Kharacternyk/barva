@@ -1,6 +1,5 @@
 from collections import deque
 
-from frontend import Frontend
 from numpy import array
 from numpy import average
 from numpy import geomspace
@@ -9,9 +8,10 @@ from numpy import sqrt
 from sampling import SamplingRequirements
 from utils import color
 from utils import term
+from visualizer import Visualizer
 
 
-class PulseRawFrontend(Frontend):
+class PulseRawVisualizer(Visualizer):
     """Return a color in hex that pulses."""
 
     def __init__(
@@ -49,21 +49,21 @@ class PulseRawFrontend(Frontend):
         return color.to_hex(r, g, b)
 
 
-class PulseTerminalFrontend(PulseRawFrontend):
+class PulseTerminalVisualizer(PulseRawVisualizer):
     """Pulse this terminal."""
 
     def __call__(self, samples):
         print(term.change_bg(super().__call__(samples)), end="", flush=True)
 
-    def exit(self):
+    def __exit__(self, etype, evalue, etrace):
         print(term.change_bg(color.to_hex(*self.cfrom)))
 
 
-class PulseTerminalsFrontend(PulseRawFrontend):
+class PulseTerminalsVisualizer(PulseRawVisualizer):
     """Pulse all terminals."""
 
     def __call__(self, samples):
         term.to_all(term.change_bg(super().__call__(samples)))
 
-    def exit(self):
+    def __exit__(self, etype, evalue, etrace):
         term.to_all(term.change_bg(color.to_hex(*self.cfrom)))

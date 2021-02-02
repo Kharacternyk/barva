@@ -38,7 +38,7 @@ PA_STREAM_RECORD = 2
 PA_SAMPLE_FLOAT32LE = 5
 
 
-class PulseAudioBackend:
+class PulseAudioSource:
     def __init__(self, sampling_requirements):
         self.sampling_requirements = sampling_requirements
 

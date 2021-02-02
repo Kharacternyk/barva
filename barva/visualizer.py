@@ -4,7 +4,7 @@ from abc import abstractmethod
 from sampling import SamplingRequirements
 
 
-class Frontend(ABC):
+class Visualizer(ABC):
     @abstractmethod
     def __call__(self, samples):
         ...
@@ -14,11 +14,8 @@ class Frontend(ABC):
     def sampling_requirements(self) -> SamplingRequirements:
         ...
 
-    def exit(self):
-        pass
-
     def __enter__(self):
         return self
 
     def __exit__(self, etype, evalue, etrace):
-        self.exit()
+        pass
