@@ -40,9 +40,12 @@ def cli(cmds):
     args = parser.parse_args()
     frontend_type = cmds[args.frontend]
     del args.frontend
-    with frontend_type(Backend, **vars(args)) as frontend:
+    with frontend_type(**vars(args)) as frontend, Backend(
+        frontend.sampling_requirements
+    ) as backend:
         try:
-            for value in frontend:
+            for samples in backend:
+                value = frontend(samples)
                 if value is not None:
                     print(value)
         except KeyboardInterrupt:

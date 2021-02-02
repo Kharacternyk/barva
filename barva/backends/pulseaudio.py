@@ -32,15 +32,17 @@ class pa_simple_t(c_void_p):
     pass
 
 
+LIB = CDLL("libpulse-simple.so.0")
+LIB.pa_simple_new.restype = pa_simple_t
+PA_STREAM_RECORD = 2
+PA_SAMPLE_FLOAT32LE = 5
+
+
 class PulseAudioBackend:
-    def __init__(self, window_size):
-        PA_STREAM_RECORD = 2
-        PA_SAMPLE_FLOAT32LE = 5
+    def __init__(self, sampling_requirements):
+        self.sampling_requirements = sampling_requirements
 
-        self._lib = CDLL("libpulse-simple.so.0")
-        self._lib.pa_simple_new.restype = pa_simple_t
-        self._error = c_int(0)
-
+    def __enter__(self):
         pactl = run(["pactl", "list", "short", "sinks"], capture_output=True)
         sinks = [sink.split() for sink in pactl.stdout.splitlines()]
         active_sinks = [sink for sink in sinks if sink[-1] == b"RUNNING"]
@@ -48,15 +50,16 @@ class PulseAudioBackend:
             sink = active_sinks[0]
         else:
             sink = sinks[0]
-
         source = sink[1] + b".monitor"
         sample_rate = int(sink[-2][:-2])
 
-        self._chunk_size = int(sample_rate * window_size)
-
-        sample_spec = pa_sample_spec_t(PA_SAMPLE_FLOAT32LE, sample_rate, 1)
-        buffer_attr = pa_buffer_attr_t(-1, 0, 0, 0, self._chunk_size)
-        self._pa_simple = self._lib.pa_simple_new(
+        self.error = c_int(0)
+        self.chunk_size = int(sample_rate * self.sampling_requirements.window_size)
+        sample_spec = pa_sample_spec_t(
+            PA_SAMPLE_FLOAT32LE, sample_rate, self.sampling_requirements.channels
+        )
+        buffer_attr = pa_buffer_attr_t(-1, 0, 0, 0, self.chunk_size)
+        self.pa_simple = LIB.pa_simple_new(
             None,
             b"barva",
             PA_STREAM_RECORD,
@@ -65,13 +68,17 @@ class PulseAudioBackend:
             byref(sample_spec),
             None,
             byref(buffer_attr),
-            byref(self._error),
+            byref(self.error),
         )
+        return self
+
+    def __exit__(self, etype, evalue, etrace):
+        LIB.pa_simple_free(self.pa_simple)
 
     def __iter__(self):
-        while True:
-            samples = (c_float * self._chunk_size)()
-            self._lib.pa_simple_read(
-                self._pa_simple, samples, sizeof(samples), byref(self._error)
-            )
-            yield samples
+        return self
+
+    def __next__(self):
+        samples = (c_float * self.chunk_size)()
+        LIB.pa_simple_read(self.pa_simple, samples, sizeof(samples), byref(self.error))
+        return samples

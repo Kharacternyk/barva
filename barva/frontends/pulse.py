@@ -6,16 +6,16 @@ from numpy import average
 from numpy import geomspace
 from numpy import mean
 from numpy import sqrt
+from sampling import SamplingRequirements
 from utils import color
 from utils import term
 
 
 class PulseRawFrontend(Frontend):
-    """Yield a color in hex that pulses."""
+    """Return a color in hex that pulses."""
 
     def __init__(
         self,
-        backend_type,
         *,
         fps: float = 30,
         cfrom: str = "#000000",
@@ -28,39 +28,42 @@ class PulseRawFrontend(Frontend):
         cto: pulse "to" this color
         inertia: the timespan over which the color fades in case of silence
         """
-        self.backend_type = backend_type
         self.fps = fps
         self.cfrom = color.from_hex(cfrom)
         self.cto = color.from_hex(cto)
-        self.length = int(fps * inertia)
+        self.length = int(inertia * fps)
         self.weights = geomspace(1, 1e-3, self.length)
+        self.queue = deque((0,) * self.length, maxlen=self.length)
 
-    def __iter__(self):
-        queue = deque((0,) * self.length, maxlen=self.length)
-        for samples in self.backend_type(1 / self.fps):
-            queue.appendleft(mean(array(samples) ** 2))
-            value = sqrt(average(queue, weights=self.weights))
-            r, g, b = (c1 + (c2 - c1) * value for c1, c2 in zip(self.cfrom, self.cto))
-            yield color.to_hex(r, g, b)
+    @property
+    def sampling_requirements(self):
+        return SamplingRequirements(
+            channels=1,
+            window_size=1 / self.fps,
+        )
+
+    def __call__(self, samples):
+        self.queue.appendleft(mean(array(samples) ** 2))
+        value = sqrt(average(self.queue, weights=self.weights))
+        r, g, b = (c1 + (c2 - c1) * value for c1, c2 in zip(self.cfrom, self.cto))
+        return color.to_hex(r, g, b)
 
 
 class PulseTerminalFrontend(PulseRawFrontend):
     """Pulse this terminal."""
 
-    def __iter__(self):
-        for c in super().__iter__():
-            yield print(term.change_bg(c), end="", flush=True)
+    def __call__(self, samples):
+        print(term.change_bg(super().__call__(samples)), end="", flush=True)
 
-    def __exit__(self, etype, evalue, etrace):
+    def exit(self):
         print(term.change_bg(color.to_hex(*self.cfrom)))
 
 
 class PulseTerminalsFrontend(PulseRawFrontend):
     """Pulse all terminals."""
 
-    def __iter__(self):
-        for c in super().__iter__():
-            yield term.to_all(term.change_bg(c))
+    def __call__(self, samples):
+        term.to_all(term.change_bg(super().__call__(samples)))
 
-    def __exit__(self, etype, evalue, etrace):
+    def exit(self):
         term.to_all(term.change_bg(color.to_hex(*self.cfrom)))
