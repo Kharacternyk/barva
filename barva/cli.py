@@ -1,7 +1,13 @@
+from argparse import ArgumentDefaultsHelpFormatter
 from argparse import ArgumentParser
+from argparse import MetavarTypeHelpFormatter
 from inspect import getfullargspec
 
 from source import NativeSource
+
+
+class Formatter(ArgumentDefaultsHelpFormatter, MetavarTypeHelpFormatter):
+    pass
 
 
 def to_cli_flag(arg):
@@ -28,7 +34,9 @@ def cli(cmds):
     )
     for name, frontend in cmds.items():
         desc = extract_frontend_description(frontend)
-        subparser = subparsers.add_parser(name, help=desc, description=desc)
+        subparser = subparsers.add_parser(
+            name, help=desc, description=desc, formatter_class=Formatter
+        )
         spec = getfullargspec(frontend)
         for arg in spec.kwonlyargs:
             subparser.add_argument(
