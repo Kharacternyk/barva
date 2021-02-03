@@ -1,4 +1,7 @@
 from collections import deque
+from os import access
+from os import scandir
+from os import W_OK
 
 from numpy import array
 from numpy import average
@@ -7,7 +10,6 @@ from numpy import mean
 from numpy import sqrt
 from sampling import SamplingRequirements
 from utils import color
-from utils import term
 from visualizer import Visualizer
 
 
@@ -52,18 +54,30 @@ class PulseRawVisualizer(Visualizer):
 class PulseTerminalVisualizer(PulseRawVisualizer):
     """Pulse this terminal."""
 
+    def change_bg(self, color):
+        return f"\033]11;{color}\007"
+
+    def calc_bg(self, samples):
+        return self.change_bg(super().__call__(samples))
+
     def __call__(self, samples):
-        print(term.change_bg(super().__call__(samples)), end="", flush=True)
+        print(self.calc_bg(samples), end="", flush=True)
 
     def __exit__(self, etype, evalue, etrace):
-        print(term.change_bg(color.to_hex(*self.cfrom)))
+        print(self.change_bg(color.to_hex(*self.cfrom)), end="", flush=True)
 
 
-class PulseTerminalsVisualizer(PulseRawVisualizer):
+class PulseTerminalsVisualizer(PulseTerminalVisualizer):
     """Pulse all terminals."""
 
+    def to_all_terms(self, msg):
+        for entry in scandir("/dev/pts"):
+            if access(entry.path, W_OK):
+                with open(entry.path, "w") as file:
+                    print(msg, file=file, end="", flush=True)
+
     def __call__(self, samples):
-        term.to_all(term.change_bg(super().__call__(samples)))
+        self.to_all_terms(self.calc_bg(samples))
 
     def __exit__(self, etype, evalue, etrace):
-        term.to_all(term.change_bg(color.to_hex(*self.cfrom)))
+        self.to_all_terms(self.change_bg(color.to_hex(*self.cfrom)))
