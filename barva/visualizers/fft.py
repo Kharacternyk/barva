@@ -11,14 +11,14 @@ class FftRawVisualizer(Visualizer):
     def __init__(
         self,
         *,
-        n: int = 5,
+        count: int = 5,
         fps: float = 30,
     ):
         """
-        n: the n-point DFT is computed
+        count: the number of points over which the DFT is computed
         fps: the number of times the DFT is computed per second
         """
-        self.n = n
+        self.count = count
         self.fps = fps
 
     @property
@@ -29,7 +29,7 @@ class FftRawVisualizer(Visualizer):
         )
 
     def __call__(self, samples):
-        return abs(fft(samples, self.n)) / self.n
+        return abs(fft(samples, self.count)) / self.count
 
 
 class FftBarsVisualizer(FftRawVisualizer):
@@ -41,10 +41,12 @@ class FftBarsVisualizer(FftRawVisualizer):
         return self
 
     def __call__(self, samples):
-        self.screen.clear()
-        for row, height in zip(range(self.n), super().__call__(samples)):
-            self.screen.move(row, 0)
-            self.screen.addstr("#" * int(height * (curses.COLS - 1)))
+        self.screen.erase()
+        for col, height in zip(range(self.count), super().__call__(samples)):
+            height = int(height * (curses.LINES - 1))
+            if height:
+                self.screen.move(curses.LINES - height, col)
+                self.screen.vline(curses.ACS_BOARD, height)
         self.screen.refresh()
 
     def __exit__(self, etype, evalue, etrace):
