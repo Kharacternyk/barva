@@ -1,5 +1,6 @@
 import curses
 
+from numpy import log10
 from numpy.fft import fft
 from sampling import SamplingRequirements
 from visualizer import Visualizer
@@ -12,7 +13,7 @@ class FftRawVisualizer(Visualizer):
         self,
         *,
         count: int = 5,
-        fps: float = 30,
+        fps: float = 10,
     ):
         """
         count: the number of points over which the DFT is computed
@@ -29,7 +30,8 @@ class FftRawVisualizer(Visualizer):
         )
 
     def __call__(self, samples):
-        return abs(fft(samples, self.count)) / self.count
+        scaled = (abs(fft(samples, self.count)) / self.count) * 9 + 1
+        return log10(scaled)
 
 
 class FftBarsVisualizer(FftRawVisualizer):
@@ -46,7 +48,7 @@ class FftBarsVisualizer(FftRawVisualizer):
             height = int(height * (curses.LINES - 1))
             if height:
                 self.screen.move(curses.LINES - height, col)
-                self.screen.vline(curses.ACS_BOARD, height)
+                self.screen.vline(curses.ACS_BLOCK, height)
         self.screen.refresh()
 
     def __exit__(self, etype, evalue, etrace):
