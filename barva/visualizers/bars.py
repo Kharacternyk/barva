@@ -51,6 +51,7 @@ class BarsTerminalVisualizer(BarsRawVisualizer):
 
     def __enter__(self):
         self.screen = curses.initscr()
+        curses.curs_set(0)
         curses.cbreak()
         return self
 
