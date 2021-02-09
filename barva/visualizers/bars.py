@@ -1,6 +1,7 @@
 import curses
 
 from numpy import array
+from numpy import array_split
 from numpy import log10
 from numpy.fft import fft
 from sampling import SamplingRequirements
@@ -30,7 +31,8 @@ class BarsRawVisualizer(Visualizer):
         )
 
     def __call__(self, samples):
-        new_positions = log10((abs(fft(samples, self.count)) / self.count) * 9 + 1)
+        freq_bins = abs(array_split(fft(samples, self.count * 2), 2)[0]) / self.count
+        new_positions = log10(freq_bins * 9 + 1)
         if self.positions is None:
             self.positions = new_positions
             return new_positions
