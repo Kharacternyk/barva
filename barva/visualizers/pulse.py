@@ -2,6 +2,7 @@ from collections import deque
 from os import access
 from os import scandir
 from os import W_OK
+from shutil import get_terminal_size
 
 from numpy import array
 from numpy import average
@@ -10,11 +11,12 @@ from numpy import mean
 from numpy import sqrt
 from sampling import SamplingRequirements
 from utils import color
+from utils import term
 from visualizer import Visualizer
 
 
 class PulseRawVisualizer(Visualizer):
-    """Return a color in hex that pulses."""
+    """Yield (r, g, b) tuples of a color that pulses."""
 
     def __init__(
         self,
@@ -48,36 +50,49 @@ class PulseRawVisualizer(Visualizer):
         self.queue.appendleft(mean(array(samples) ** 2))
         value = sqrt(average(self.queue, weights=self.weights))
         r, g, b = (c1 + (c2 - c1) * value for c1, c2 in zip(self.cfrom, self.cto))
-        return color.to_hex(r, g, b)
+        return (r, g, b)
 
 
 class PulseTerminalVisualizer(PulseRawVisualizer):
     """Pulse this terminal."""
 
-    def change_bg(self, color):
-        return f"\033]11;{color}\007"
-
-    def calc_bg(self, samples):
-        return self.change_bg(super().__call__(samples))
-
     def __call__(self, samples):
-        print(self.calc_bg(samples), end="", flush=True)
+        print(term.define_bg(*super().__call__(samples)), end="", flush=True)
 
     def __exit__(self, etype, evalue, etrace):
-        print(self.change_bg(color.to_hex(*self.cfrom)), end="", flush=True)
+        print(term.define_bg(*self.cfrom), end="", flush=True)
 
 
-class PulseTerminalsVisualizer(PulseTerminalVisualizer):
+class PulseTerminalsVisualizer(PulseRawVisualizer):
     """Pulse all terminals."""
 
-    def to_all_terms(self, msg):
+    @staticmethod
+    def to_all_terms(msg):
         for entry in scandir("/dev/pts"):
             if access(entry.path, W_OK):
                 with open(entry.path, "w") as file:
                     print(msg, file=file, end="", flush=True)
 
     def __call__(self, samples):
-        self.to_all_terms(self.calc_bg(samples))
+        self.to_all_terms(term.define_bg(*super().__call__(samples)))
 
     def __exit__(self, etype, evalue, etrace):
-        self.to_all_terms(self.change_bg(color.to_hex(*self.cfrom)))
+        self.to_all_terms(term.define_bg(*self.cfrom))
+
+
+class PulseTerminalFireVisualizer(PulseRawVisualizer):
+    """Draw a fire-like animation."""
+
+    def __enter__(self):
+        columns, rows = get_terminal_size()
+        print(term.switch_bg(*self.cfrom))
+        print(" " * columns * rows)
+        print(term.hide_cursor)
+        return self
+
+    def __call__(self, samples):
+        columns, _ = get_terminal_size()
+        print(term.switch_bg(*super().__call__(samples)) + " " * columns)
+
+    def __exit__(self, etype, evalue, etrace):
+        print(term.show_cursor + term.reset_colors + term.clear_screen, end="")
