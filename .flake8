@@ -1,4 +1,4 @@
 [flake8]
 max-line-length = 88
-ignore = E203 # Conflicts with black
+ignore = E203 W503 # Conflicts with black
 per-file-ignores = __init__.py: F401

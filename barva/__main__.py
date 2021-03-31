@@ -2,6 +2,7 @@
 from cli import cli
 from visualizers.bars import BarsRawVisualizer
 from visualizers.bars import BarsTerminalVisualizer
+from visualizers.pulse import PulseBspwmBordersVisualizer
 from visualizers.pulse import PulseRawVisualizer
 from visualizers.pulse import PulseTerminalFireVisualizer
 from visualizers.pulse import PulseTerminalsVisualizer
@@ -12,6 +13,7 @@ cmds = {
     "pulse-raw": PulseRawVisualizer,
     "pulse-term": PulseTerminalVisualizer,
     "pulse-terms": PulseTerminalsVisualizer,
+    "pulse-bspwm": PulseBspwmBordersVisualizer,
     "bars-raw": BarsRawVisualizer,
     "bars": BarsTerminalVisualizer,
 }

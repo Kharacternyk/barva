@@ -1,5 +1,8 @@
+import socket
 from collections import deque
+from glob import glob
 from os import access
+from os import getenv
 from os import scandir
 from os import W_OK
 from shutil import get_terminal_size
@@ -96,3 +99,39 @@ class PulseTerminalFireVisualizer(PulseRawVisualizer):
 
     def __exit__(self, etype, evalue, etrace):
         print(term.show_cursor + term.reset_colors + term.clear_screen, end="")
+
+
+class PulseBspwmBordersVisualizer(PulseRawVisualizer):
+    """Pulse the window borders (requires BSPWM)."""
+
+    def __enter__(self):
+        self.socket_file = getenv("BSPWM_SOCKET", None)
+        if not self.socket_file:
+            possible_sockets = glob("/tmp/bspwm*_*_*-socket")
+            if not possible_sockets:
+                raise ValueError("No BSPWM socket found")
+            if len(possible_sockets) > 1:
+                raise ValueError(
+                    f"Could not choose the right BSPWM socket among {possible_sockets}"
+                )
+            self.socket_file = possible_sockets[0]
+        return self
+
+    def __call__(self, samples):
+        s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        s.connect(self.socket_file)
+        s.send(
+            b"config\x00normal_border_color\x00"
+            + f"{color.to_hex(*super().__call__(samples))}\x00".encode()
+        )
+        s.close()
+
+    def __exit__(self, etype, evalue, etrace):
+        # TODO We could get the previously used border color from bspc and restore it.
+        s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        s.connect(self.socket_file)
+        s.send(
+            b"config\x00normal_border_color\x00"
+            + f"{color.to_hex(*self.cfrom)}\x00".encode()
+        )
+        s.close()
