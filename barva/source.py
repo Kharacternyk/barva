@@ -1,7 +1,7 @@
 from abc import ABC
 from abc import abstractmethod
 
-from sampling import SamplingRequirements
+from barva.sampling import SamplingRequirements
 
 
 class Source(ABC):

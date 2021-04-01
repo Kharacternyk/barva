@@ -1,6 +1,6 @@
-from sources import PulseAudioSource
+from barva.sources import PulseAudioSource
 
-#FIXME
+
+# FIXME
 class NativeSource(PulseAudioSource):
     pass
-

@@ -5,8 +5,9 @@ from numpy import array_split
 from numpy import clip
 from numpy import log10
 from numpy.fft import fft
-from sampling import SamplingRequirements
-from visualizer import Visualizer
+
+from barva.sampling import SamplingRequirements
+from barva.visualizer import Visualizer
 
 
 class BarsRawVisualizer(Visualizer):

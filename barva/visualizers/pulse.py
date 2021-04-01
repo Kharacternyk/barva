@@ -12,10 +12,11 @@ from numpy import average
 from numpy import geomspace
 from numpy import mean
 from numpy import sqrt
-from sampling import SamplingRequirements
-from utils import color
-from utils import term
-from visualizer import Visualizer
+
+from barva.sampling import SamplingRequirements
+from barva.utils import color
+from barva.utils import term
+from barva.visualizer import Visualizer
 
 
 class PulseRawVisualizer(Visualizer):

@@ -3,7 +3,7 @@ from argparse import ArgumentParser
 from argparse import MetavarTypeHelpFormatter
 from inspect import getfullargspec
 
-from sources import NativeSource
+from barva.sources import NativeSource
 
 
 class Formatter(ArgumentDefaultsHelpFormatter, MetavarTypeHelpFormatter):

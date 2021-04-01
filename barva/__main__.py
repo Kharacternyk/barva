@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-from cli import cli
-from visualizers.bars import BarsRawVisualizer
-from visualizers.bars import BarsTerminalVisualizer
-from visualizers.pulse import PulseBspwmBordersVisualizer
-from visualizers.pulse import PulseRawVisualizer
-from visualizers.pulse import PulseTerminalFireVisualizer
-from visualizers.pulse import PulseTerminalsVisualizer
-from visualizers.pulse import PulseTerminalVisualizer
+from barva.cli import cli
+from barva.visualizers.bars import BarsRawVisualizer
+from barva.visualizers.bars import BarsTerminalVisualizer
+from barva.visualizers.pulse import PulseBspwmBordersVisualizer
+from barva.visualizers.pulse import PulseRawVisualizer
+from barva.visualizers.pulse import PulseTerminalFireVisualizer
+from barva.visualizers.pulse import PulseTerminalsVisualizer
+from barva.visualizers.pulse import PulseTerminalVisualizer
 
 cmds = {
     "fire": PulseTerminalFireVisualizer,

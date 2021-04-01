@@ -1,4 +1,4 @@
-from utils import color
+from barva.utils import color
 
 
 def define_bg(r, g, b):

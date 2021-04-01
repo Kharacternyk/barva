@@ -7,9 +7,10 @@ from ctypes import c_void_p
 from ctypes import CDLL
 from ctypes import sizeof
 from ctypes import Structure
+from os import getenv
 from subprocess import run
 
-from source import Source
+from barva.source import Source
 
 
 class pa_buffer_attr_t(Structure):
@@ -34,7 +35,7 @@ class pa_simple_t(c_void_p):
     pass
 
 
-LIB = CDLL("libpulse-simple.so.0")
+LIB = CDLL(getenv("BARVA_PULSE_SIMPLE", "libpulse-simple.so.0"))
 LIB.pa_simple_new.restype = pa_simple_t
 PA_STREAM_RECORD = 2
 PA_SAMPLE_FLOAT32LE = 5
