@@ -27,15 +27,23 @@ class PulseRawVisualizer(Visualizer):
         *,
         fps: float = 30,
         cfrom: str = "#000000",
-        cto: str = "#FF0000",
+        cto: str = "#0080FF",
         inertia: float = 1.5,
+        unsafe: bool = False,
     ):
         """
         fps: the number of times the color is updated per second
         cfrom: pulse "from" this color
         cto: pulse "to" this color
-        inertia: the timespan over which the color fades in case of silence
+        inertia: the timespan in seconds over which the color fades in case of silence
+        unsafe: whether to allow inertia values less than 1.5s
         """
+        if not unsafe and inertia < 1.5:
+            raise ValueError(
+                "Inertia values lower than 1.5s are forbidden to prevent potentially"
+                + " harmful flashing.\n"
+                + "Pass `--unsafe true' if you want to override this."
+            )
         self.fps = fps
         self.cfrom = color.from_hex(cfrom)
         self.cto = color.from_hex(cto)
