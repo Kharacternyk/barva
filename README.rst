@@ -10,6 +10,8 @@ Please, don't use it if you have such condition.
 Installation
 ============
 
+``pip install barva``
+
 =====
 Usage
 =====
