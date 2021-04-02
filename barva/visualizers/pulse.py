@@ -27,7 +27,7 @@ class PulseRawVisualizer(Visualizer):
         *,
         fps: float = 30,
         cfrom: str = "#000000",
-        cto: str = "#0080FF",
+        cto: str = "#00FFFF",
         inertia: float = 1.5,
         unsafe: bool = False,
     ):
@@ -63,6 +63,13 @@ class PulseRawVisualizer(Visualizer):
         value = sqrt(average(self.queue, weights=self.weights))
         r, g, b = (c1 + (c2 - c1) * value for c1, c2 in zip(self.cfrom, self.cto))
         return (r, g, b)
+
+
+class PulseHexVisualizer(PulseRawVisualizer):
+    """Yield a hex color that pulses."""
+
+    def __call__(self, samples):
+        return color.to_hex(*super().__call__(samples))
 
 
 class PulseTerminalVisualizer(PulseRawVisualizer):
@@ -110,7 +117,7 @@ class PulseTerminalFireVisualizer(PulseRawVisualizer):
         print(term.show_cursor + term.reset_colors + term.clear_screen, end="")
 
 
-class PulseBspwmBordersVisualizer(PulseRawVisualizer):
+class PulseBspwmBordersVisualizer(PulseHexVisualizer):
     """Pulse the window borders (requires BSPWM)."""
 
     def __enter__(self):
@@ -131,7 +138,7 @@ class PulseBspwmBordersVisualizer(PulseRawVisualizer):
         s.connect(self.socket_file)
         s.send(
             b"config\x00normal_border_color\x00"
-            + f"{color.to_hex(*super().__call__(samples))}\x00".encode()
+            + f"{super().__call__(samples)}\x00".encode()
         )
         s.close()
 

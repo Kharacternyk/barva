@@ -10,12 +10,12 @@ class Formatter(ArgumentDefaultsHelpFormatter, MetavarTypeHelpFormatter):
     pass
 
 
-def extract_frontend_description(frontend):
-    return frontend.__doc__.splitlines()[0]
+def extract_visualizer_description(visualizer):
+    return visualizer.__doc__.splitlines()[0]
 
 
-def extract_arg_description(frontend, arg):
-    lines = frontend.__init__.__doc__.splitlines()
+def extract_arg_description(visualizer, arg):
+    lines = visualizer.__init__.__doc__.splitlines()
     while not lines[0].lstrip().startswith(arg + ":"):
         lines = lines[1:]
     return lines[0].lstrip().replace(arg + ":", "")
@@ -25,31 +25,31 @@ def cli(cmds):
     parser = ArgumentParser()
     subparsers = parser.add_subparsers(
         required=True,
-        metavar="frontend",
-        dest="frontend",
+        metavar="visualizer",
+        dest="visualizer",
     )
-    for name, frontend in cmds.items():
-        desc = extract_frontend_description(frontend)
+    for name, visualizer in cmds.items():
+        desc = extract_visualizer_description(visualizer)
         subparser = subparsers.add_parser(
             name, help=desc, description=desc, formatter_class=Formatter
         )
-        spec = getfullargspec(frontend)
+        spec = getfullargspec(visualizer)
         for arg in spec.kwonlyargs:
             subparser.add_argument(
                 "--" + arg,
-                help=extract_arg_description(frontend, arg),
+                help=extract_arg_description(visualizer, arg),
                 default=spec.kwonlydefaults[arg],
                 type=spec.annotations[arg],
             )
     args = parser.parse_args()
-    frontend_type = cmds[args.frontend]
-    del args.frontend
-    with frontend_type(**vars(args)) as frontend, NativeSource(
-        frontend.sampling_requirements
-    ) as backend:
+    visualizer_type = cmds[args.visualizer]
+    del args.visualizer
+    with visualizer_type(**vars(args)) as visualizer, NativeSource(
+        visualizer.sampling_requirements
+    ) as source:
         try:
-            for samples in backend:
-                value = frontend(samples)
+            for samples in source:
+                value = visualizer(samples)
                 if value is not None:
                     print(value)
         except KeyboardInterrupt:
