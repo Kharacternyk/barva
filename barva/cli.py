@@ -10,10 +10,6 @@ class Formatter(ArgumentDefaultsHelpFormatter, MetavarTypeHelpFormatter):
     pass
 
 
-def to_cli_flag(arg):
-    return "--" + arg.rstrip("_")
-
-
 def extract_frontend_description(frontend):
     return frontend.__doc__.splitlines()[0]
 
@@ -40,7 +36,7 @@ def cli(cmds):
         spec = getfullargspec(frontend)
         for arg in spec.kwonlyargs:
             subparser.add_argument(
-                to_cli_flag(arg),
+                "--" + arg,
                 help=extract_arg_description(frontend, arg),
                 default=spec.kwonlydefaults[arg],
                 type=spec.annotations[arg],
