@@ -8,6 +8,10 @@ pkgs.python3Packages.buildPythonPackage rec {
     ncurses
     python3Packages.numpy
   ];
+  nativeBuildInputs = with pkgs; [
+    python3Packages.pytest
+    python3Packages.hypothesis
+  ];
 
   BARVA_PULSE_SIMPLE = "${pkgs.libpulseaudio}/lib/libpulse-simple.so.0";
 }
