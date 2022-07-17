@@ -16,6 +16,7 @@ from numpy import sqrt
 from barva.sampling import SamplingRequirements
 from barva.utils import color
 from barva.utils import term
+from barva.utils import keyboard
 from barva.visualizer import Visualizer
 
 
@@ -97,6 +98,22 @@ class PulseTerminalsVisualizer(PulseRawVisualizer):
 
     def __exit__(self, etype, evalue, etrace):
         self.to_all_terms(term.define_bg(*self.cfrom))
+
+
+class PulseKeyboardVisualizer(PulseRawVisualizer):
+    """Pulse the keyboard."""
+    
+    @staticmethod
+
+    def to_keyboard(msg):
+        with open('/sys/class/leds/system76_acpi::kbd_backlight/color', "w") as kbd:
+            print(msg, file=kbd, end="", flush=True)
+
+    def __call__(self, samples):
+        self.to_keyboard(keyboard.define_backlight(*super().__call__(samples)))
+
+    def __exit__(self, etype, evalue, etrace):
+        self.to_keyboard(keyboard.define_backlight(*self.cfrom))
 
 
 class PulseTerminalFireVisualizer(PulseRawVisualizer):
